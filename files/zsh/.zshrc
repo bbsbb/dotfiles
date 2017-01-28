@@ -3,9 +3,10 @@ ZSH_THEME="agnoster"
 DISABLE_AUTO_UPDATE="true"
 plugins=(git lein docker encode64 git-extras httpie sbt sudo)
 
-export PATH="/home/zee/bin:/home/zee/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin"
+export PATH="/home/zee/bin:/home/zee/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/home/zee/src/golang/bin"
 export GOROOT="/usr/local/go"
 export GOPATH="/home/zee/src/golang"
+export GOBIN="/home/zee/src/golang/bin"
 source $ZSH/oh-my-zsh.sh
 
 export LANG="en_US.UTF-8"

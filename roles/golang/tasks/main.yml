@@ -1,20 +1,15 @@
 ---
-- name: "Check if Go is already present."
-  stat:
-    path: "/usr/local/go/bin/go"
-  register: has_golang
-
 - name: "Download & unpack Go archive."
   unarchive:
     src: "https://storage.googleapis.com/golang/go{{ versions.go }}.linux-amd64.tar.gz"
     dest: "/usr/local"
     remote_src: true
-  when: has_golang.stat.exists == false
+    creates: "/usr/local/go/bin/go"
 
 - name: "Create Go directories"
   become: yes
   become_user: "{{ ssh_params.user }}"
-  ignore_errors: yes
+  become_method: sudo
   file:
     path: "{{ item }}"
     state: directory
@@ -23,3 +18,13 @@
     - "~/src/golang/bin"
     - "~/src/golang/src"
     - "~/src/golang/pkg"
+
+- name: "Install glide"
+  shell: "curl https://glide.sh/get | sh"
+  args:
+    creates: "~/src/golang/bin/glide"
+
+- name: "Install gocode"
+  shell: "go get -u github.com/nsf/gocode"
+  args:
+    creates: "~/src/golang/bin/gocode"

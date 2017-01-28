@@ -1,3 +1,5 @@
+devenv: docker devutils clojure golang
+
 secure-ssh:
 	ansible-playbook --ask-become-pass -i initial-hosts development.yml --tags ssh
 
