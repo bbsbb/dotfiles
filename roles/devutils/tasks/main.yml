@@ -1,0 +1,78 @@
+---
+- name: "Install several common dev utils."
+  apt:
+    name:
+      - build-essential
+      - git
+      - jq
+      - httpie
+      - python-pip
+      - silversearcher-ag
+      - tmux
+      - zsh
+    update_cache: yes
+    state: latest
+
+- name: "Install powerline."
+  pip:
+    name: powerline-status
+    state: present
+
+- name: "Add Tmux configuration file."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  copy:
+    src: "./files/tmux/.tmux.conf"
+    dest: "/home/{{ ssh_params.user }}/.tmux.conf"
+
+- name: "Change default shell to ZSH"
+  user:
+    name: "{{ ssh_params.user }}"
+    shell: "/bin/zsh"
+
+- name: "Add .zhsrc."
+  copy:
+    src: "./files/zsh/.zshrc"
+    dest: "/home/{{ ssh_params.user }}/.zshrc"
+
+- name: "Fetch Oh My Zsh."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  ignore_errors: yes
+  git:
+    repo: "https://github.com/robbyrussell/oh-my-zsh.git"
+    dest: "~/.oh-my-zsh"
+    accept_hostkey: true
+
+- name: "Copy ZSH prompt patch."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  copy:
+    src: "./files/zsh/oh-my-zsh.patch"
+    dest: "/home/{{ ssh_params.user }}/.oh-my-zsh/oh-my-zsh.patch"
+
+- name: "Run GIT command to apply ZSH patch."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  ignore_errors: yes
+  command: "git apply oh-my-zsh.patch"
+  args:
+    chdir: "/home/{{ ssh_params.user }}/.oh-my-zsh"
+
+- name: "Add Emacs 25.1 PPA."
+  apt_repository:
+    repo: "ppa:kelleyk/emacs"
+
+- name: "Install Emacs package."
+  apt:
+    name:
+      - emacs25
+    update_cache: yes
+    state: latest
+
+- name: "Create .emacs.d."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  copy:
+    src: "./files/emacs/"
+    dest: "/home/{{ ssh_params.user }}/.emacs.d/"

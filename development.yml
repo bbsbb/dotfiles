@@ -1,0 +1,43 @@
+- name: Configure SSH on the machine.
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+
+  roles:
+    - secure-ssh
+  tags: ssh
+
+- name: Install Docker
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+
+  roles:
+    - docker
+  tags: docker
+
+- name: Install development utilities.
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+  roles:
+    - devutils
+  tags: devutils

@@ -1,0 +1,13 @@
+- name: Configure & secure ssh connection.
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+
+  roles:
+    - secure-ssh
