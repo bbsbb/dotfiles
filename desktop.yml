@@ -23,6 +23,8 @@
           - suckless-tools
           - gnome-terminal
           - fonts-inconsolata
+          - python-software-properties
+          - pasystray
         update_cache: yes
         state: latest
     - name: "Create LDM configuration."
