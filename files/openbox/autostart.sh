@@ -5,4 +5,4 @@ tint2 &
 nitrogen --restore &
 
 #volume applet
-#pasystray &
+pasystray &
