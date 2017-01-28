@@ -20,7 +20,7 @@ If not, stick to the makefile.
 <insert ip of the target machine running ssh+ansible>
 ```
 * Open `vars/development-params.yml` and adjust as you like.
-* run `make secure-ssh`
+* Run `make secure-ssh`
 * Create another file, called secure-hosts with the following contents
 ```
 [desktop_machines]
@@ -28,9 +28,9 @@ If not, stick to the makefile.
 ```
 * Run `make docker` to install docker.
 * Run `make clojure` for openjdk + lein.
-* Run `make golang` for go + some utils.
+* Run `make golang` for go, gocode & glide.
 
 ## License
 
-Copyright © 2016
+Copyright © 2017
 Distributed under the MIT License
