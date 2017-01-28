@@ -35,14 +35,21 @@
     src: "./files/zsh/.zshrc"
     dest: "/home/{{ ssh_params.user }}/.zshrc"
 
+- name: "Check if we have a patched zsh."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  stat:
+    path: "~/.oh-my-zsh/oh-my-zsh.patch"
+  register: zsh_patched
+
 - name: "Fetch Oh My Zsh."
   become: yes
   become_user: "{{ ssh_params.user }}"
-  ignore_errors: yes
   git:
     repo: "https://github.com/robbyrussell/oh-my-zsh.git"
     dest: "~/.oh-my-zsh"
     accept_hostkey: true
+  when: zsh_patched.stat.exists == false
 
 - name: "Copy ZSH prompt patch."
   become: yes
@@ -50,14 +57,15 @@
   copy:
     src: "./files/zsh/oh-my-zsh.patch"
     dest: "/home/{{ ssh_params.user }}/.oh-my-zsh/oh-my-zsh.patch"
+  when: zsh_patched.stat.exists == false
 
 - name: "Run GIT command to apply ZSH patch."
   become: yes
   become_user: "{{ ssh_params.user }}"
-  ignore_errors: yes
   command: "git apply oh-my-zsh.patch"
   args:
     chdir: "/home/{{ ssh_params.user }}/.oh-my-zsh"
+  when: zsh_patched.stat.exists == false
 
 - name: "Add Emacs 25.1 PPA."
   apt_repository:
@@ -70,9 +78,17 @@
     update_cache: yes
     state: latest
 
+- name: "Check if we have a configured emacs installation."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  stat:
+    path: "~/.emacs.d/init.el"
+  register: emacs_configured
+
 - name: "Create .emacs.d."
   become: yes
   become_user: "{{ ssh_params.user }}"
   copy:
     src: "./files/emacs/"
     dest: "/home/{{ ssh_params.user }}/.emacs.d/"
+  when: emacs_configured.stat.exists == false

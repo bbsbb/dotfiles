@@ -1,0 +1,25 @@
+---
+- name: "Check if Go is already present."
+  stat:
+    path: "/usr/local/go/bin/go"
+  register: has_golang
+
+- name: "Download & unpack Go archive."
+  unarchive:
+    src: "https://storage.googleapis.com/golang/go{{ versions.go }}.linux-amd64.tar.gz"
+    dest: "/usr/local"
+    remote_src: true
+  when: has_golang.stat.exists == false
+
+- name: "Create Go directories"
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  ignore_errors: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "~/src/golang/bin"
+    - "~/src/golang/src"
+    - "~/src/golang/pkg"

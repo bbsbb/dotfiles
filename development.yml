@@ -41,3 +41,31 @@
   roles:
     - devutils
   tags: devutils
+
+- name: Install clojure & prepare development.
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+  roles:
+    - clojure
+  tags: clojure
+
+- name: Install golang, prepare env & fetch some utils.
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/development-params.yml
+  roles:
+    - golang
+  tags: golang

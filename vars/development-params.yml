@@ -7,3 +7,5 @@ ssh_params:
 docker_params:
   storage_driver: "overlay"
   dns: "--dns 8.8.8.8 --dns 8.8.4.4"
+versions:
+  go: "1.7.5"

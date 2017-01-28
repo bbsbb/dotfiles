@@ -1,0 +1,29 @@
+---
+- name: "Install latest OpenJDK."
+  apt:
+    name:
+      - default-jdk
+    update_cache: yes
+    state: latest
+
+- name: "Check if we have a local leinignen profile."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  stat:
+    path: "~/.lein/profiles.clj"
+  register: has_lein_profile
+
+- name: "Install leiningen."
+  get_url:
+    dest: "/usr/local/bin"
+    url: "https://raw.github.com/technomancy/leiningen/stable/bin/lein"
+    mode: "a+x"
+  when: has_lein_profile.stat.exists == false
+
+- name: "Copy leiningen profile."
+  become: yes
+  become_user: "{{ ssh_params.user }}"
+  copy:
+    src: "./files/lein/"
+    dest: "/home/{{ ssh_params.user }}/.lein/"
+  when: has_lein_profile.stat.exists == false

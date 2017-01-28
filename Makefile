@@ -6,3 +6,9 @@ docker:
 
 devutils:
 	ansible-playbook --ask-become-pass -i secure-hosts development.yml --tags devutils
+
+clojure:
+	ansible-playbook --ask-become-pass -i secure-hosts development.yml --tags clojure
+
+golang:
+	ansible-playbook --ask-become-pass -i secure-hosts development.yml --tags golang
