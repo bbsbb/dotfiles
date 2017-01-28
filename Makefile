@@ -14,3 +14,6 @@ clojure:
 
 golang:
 	ansible-playbook --ask-become-pass -i secure-hosts development.yml --tags golang
+
+desktop:
+	ansible-playbook --ask-become-pass -i secure-hosts desktop.yml

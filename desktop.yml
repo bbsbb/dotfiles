@@ -1,0 +1,43 @@
+- name: "Install Desktop environment."
+  hosts: desktop_machines
+  remote_user: zee
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - vars/desktop-params.yml
+
+  tasks:
+    - name: "Install X environment."
+      apt:
+        name:
+          - xorg
+          - openbox
+          - obmenu
+          - obconf
+          - nitrogen
+          - tint2
+          - lightdm
+          - suckless-tools
+          - gnome-terminal
+          - fonts-inconsolata
+        update_cache: yes
+        state: latest
+    - name: "Create LDM configuration."
+      copy:
+        src: "./files/lightdm/openbox.conf"
+        dest: "/etc/lightdm/lightdm.conf.d/openbox.conf"
+    - name: "Create tint2 configuration."
+      become: yes
+      become_user: "{{ desktop.user }}"
+      copy:
+        src: "./files/tint2/"
+        dest: "~/.config/tint2/"
+    - name: "Create openbox configuration."
+      become: yes
+      become_user: "{{ desktop.user }}"
+      copy:
+        src: "./files/openbox/"
+        dest: "~/.config/openbox/"
