@@ -25,6 +25,7 @@
           - fonts-inconsolata
           - python-software-properties
           - pasystray
+          - pavucontrol
         update_cache: yes
         state: latest
     - name: "Create LDM configuration."
