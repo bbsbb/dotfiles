@@ -10,6 +10,7 @@
       - silversearcher-ag
       - tmux
       - zsh
+      - mosh
     update_cache: yes
     state: latest
 

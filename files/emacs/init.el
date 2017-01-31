@@ -37,6 +37,7 @@
     rainbow-mode
     sass-mode
     smex
+    yaml-mode
     yasnippet))
 
 (dolist (p my-packages)
