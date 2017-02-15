@@ -31,6 +31,7 @@
     helm-projectile
     magit
     markdown-mode
+    org
     paredit
     php-mode
     rainbow-delimiters
@@ -49,8 +50,10 @@
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (require 'go-autocomplete)
 (require 'auto-complete-config)
+
 (global-auto-complete-mode t)
 (global-git-gutter-mode t)
+
 (setq ac-quick-help-delay 0.5)
 (setq ac-auto-start 1)
 (setq ac-ignore-case nil)
