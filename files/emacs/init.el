@@ -59,6 +59,12 @@
 (setq ac-ignore-case nil)
 (ac-config-default)
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;ORG MOD;;;;;;;;;;;;;;;;;;;;;;;;
+(setq org-directory "~/Dropbox/org")
+(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+(setq org-mobile-inbox-for-pull "~/Dropbox/org/inbox.org")
+(setq org-mobile-files '("~/Dropbox/org"))
+;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Enable paredit for some modes;;
 (defun activate-paredit-mode-custom ()
   (interactive)
