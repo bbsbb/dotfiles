@@ -73,7 +73,6 @@
   (global-set-key (kbd "C-l") 'paredit-forward-up)
   (paredit-mode 1)
   (show-paren-mode 1))
-
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Helm & Projectile;;;;;;;;;;;;;;;;
 (require 'helm-config)
@@ -139,6 +138,8 @@
 (add-hook 'prog-mode-hook 'activate-paredit-mode-custom)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'gofmt-before-save)
+
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
