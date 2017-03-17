@@ -53,7 +53,7 @@
 
 (global-auto-complete-mode t)
 (global-git-gutter-mode t)
-
+(global-prettify-symbols-mode 1)
 (setq ac-quick-help-delay 0.5)
 (setq ac-auto-start 1)
 (setq ac-ignore-case nil)
