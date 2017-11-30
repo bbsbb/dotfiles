@@ -38,6 +38,7 @@
     rainbow-mode
     sass-mode
     smex
+    web-mode
     yaml-mode
     yasnippet))
 
@@ -53,7 +54,7 @@
 
 (global-auto-complete-mode t)
 (global-git-gutter-mode t)
-(global-prettify-symbols-mode 1)
+
 (setq ac-quick-help-delay 0.5)
 (setq ac-auto-start 1)
 (setq ac-ignore-case nil)
@@ -96,6 +97,7 @@
 (global-set-key (kbd "C-x r") 'helm-projectile-ag)           ; Search in files
 (global-set-key (kbd "C-c C-d") 'make-directory)
 (global-set-key (kbd "C-c C-x") 'delete-directory)
+(global-prettify-symbols-mode 1)
 ;;Paredit config, sorry
 ;;Spaces please.
 (setq-default indent-tabs-mode nil)
@@ -131,21 +133,67 @@
 (eval-after-load "auto-complete"
   '(progn
      (add-to-list 'ac-modes 'cider-mode)
-          (add-to-list 'ac-modes 'cider-repl-mode)))
+     (add-to-list 'ac-modes 'cider-repl-mode)))
 
 (add-hook 'emacs-startup-hook 'setup-workspace)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'activate-paredit-mode-custom)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;Js dogshit.
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
+
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(setq-default flycheck-temp-prefix ".flycheck")
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+          '(json-jsonlist)))
+
+(exec-path-from-shell-initialize)
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  ;;(company-mode +1)
+  )
+
+;; aligns annotation to the right hand side
+;; formats the buffer before saving
+;;(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.test\\.tsx$" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+;;end js dogshit.
+
+(setq gofmt-command "goimports")
 (add-hook 'before-save-hook #'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
- '(clojure-align-forms-automatically t)
+  '(clojure-align-forms-automatically t)
  '(grep-find-ignored-directories
    (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv"))))
-(custom-set-faces
- )
+    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc")))
+ '(package-selected-packages
+   (quote
+    (tide exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
