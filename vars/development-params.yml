@@ -3,6 +3,7 @@ ssh_params:
   user: zee
   authorized_keys:
     - { name: "boyan-key", key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwjg4BNPY6YkUxdCELozjbvlZxL2sMceklH4Z5qOfwWWANf+UUBAhfnBIWvt3GuzxXdbG1oGOtKFvh81V0VPY/a1hpRP6/29/YmqiLYmISDbk9JQbO9S65zX8v5KfRkwgGLSE5EESgbFMOhOXQOYZ3oM40NZxuCv0Kw8xxo+nj5WcWW62YTNSxFeotXZeNcxLG0/WEb1wGq4VGiQoyb41IWyMsytGs5DPtjOllPiTxaKWqBLNuhulXkZm4Q+ZWwF9a6gqB6bfcyre0P7Qnl5CWfn6H8f/gptr2DQ/Pyth5S/xMpga84l6uQ/uiLdSpEM74QQZGrO2cDcQBhYp+CJgt"}
+    - { name: "boyan-key2", key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7TgW8hkpabVX/XOjjYgvVB7McJNkRizYnxDrRrtJ0p/S4XMtzb+Kko2FlDF8HHsWDYQKU1ScBezK95yiOrPK7zSyjfbjpiVgvk4AmdftvGZVHjQ3szVouReVECMrMdF/MPK7L+YzIqIlofQSSn7rqn8rEMDGZso3hwZlgy8dXDMJIq6ntQCaA9F2KUAUBOGFACaX6vfkAS/J67d+22vpB0b/EHoC2OHf7/D7jmzXSzQ0xB0wHwgxOocuw7MoCBRDYxy0/jExf7V0cr0ni3lF9VRcoPpABkFFfKR6+W+Q3Y/+/A93TzC6habuLGrbGb2fJPPIQiywXdgwlL/NDVI4B"}
   port: 4423
 docker_params:
   storage_driver: "overlay"
