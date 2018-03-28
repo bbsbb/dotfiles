@@ -38,6 +38,8 @@
     rainbow-mode
     sass-mode
     smex
+    terraform-mode
+    tuareg
     web-mode
     yaml-mode
     yasnippet))
@@ -199,4 +201,4 @@
     ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc")))
  '(package-selected-packages
    (quote
-    (tide exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
+    (tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
