@@ -76,12 +76,16 @@
   (global-set-key (kbd "C-l") 'paredit-forward-up)
   (paredit-mode 1)
   (show-paren-mode 1))
+;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;Cider integration + profile jack in.
 (defun jack-in-with-profile ()
   (interactive)
   (letrec ((profile (read-string "Profiles: "))
            (lein-params (concat "with-profile +" profile " repl :headless")))
     (set-variable 'cider-lein-parameters lein-params)
     (cider-jack-in)))
+(setq  cider-refresh-before-fn "integrant.repl/suspend")
+(setq  cider-refresh-after-fn "integrant.repl/resume")
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Helm & Projectile;;;;;;;;;;;;;;;;
 (require 'helm-config)
