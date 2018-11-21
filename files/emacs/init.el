@@ -26,6 +26,7 @@
     go-mode
     jinja2-mode
     js2-mode
+    haskell-mode
     helm
     helm-ag
     helm-projectile
