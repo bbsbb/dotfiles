@@ -118,6 +118,9 @@
 (setq c-basic-offset 4)
 (setq c-basic-indent 4)
 
+;;Always show row position
+(column-number-mode t)
+
 ;;Always use snippets
 (yas-global-mode 1)
 
