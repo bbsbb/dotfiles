@@ -2,8 +2,7 @@
 (require 'package)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                     ("marmalade" . "http://marmalade-repo.org/packages/")
-                     ("melpa" . "http://melpa.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -95,6 +94,7 @@
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching nil)
 (helm-projectile-on)
+(setq helm-ag-use-grep-ignore-list t)
 (setq helm-display-header-line nil)
 (setq helm-split-window-in-side-p t)
 (setq helm-autoresize-max-height 30)
