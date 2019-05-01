@@ -93,7 +93,8 @@
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching nil)
 (helm-projectile-on)
-(setq helm-ag-use-grep-ignore-list t)
+;;(setq helm-ag-use-grep-ignore-list t)
+(setq helm-ag-use-agignore t)
 (setq helm-display-header-line nil)
 (setq helm-split-window-in-side-p t)
 (setq helm-autoresize-max-height 30)
@@ -190,7 +191,7 @@
   '(clojure-align-forms-automatically t)
  '(grep-find-ignored-directories
    (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc")))
+    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target")))
  '(package-selected-packages
    (quote
     (tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
