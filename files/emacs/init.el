@@ -40,7 +40,6 @@
     smex
     terraform-mode
     tuareg
-    web-mode
     yaml-mode
     yasnippet))
 
@@ -162,7 +161,6 @@
   (append flycheck-disabled-checkers
     '(javascript-jshint)))
 
-(flycheck-add-mode 'javascript-eslint 'web-mode)
 (setq-default flycheck-temp-prefix ".flycheck")
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
@@ -182,26 +180,6 @@
   ;; `M-x package-install [ret] company`
   ;;(company-mode +1)
   )
-
-;; aligns annotation to the right hand side
-;; formats the buffer before saving
-;;(add-hook 'before-save-hook 'tide-format-before-save)
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.test\\.tsx$" . web-mode))
-(add-to-list 'ac-modes 'web-mode)
-(add-to-list 'ac-modes 'typescript-mode)
-;;(add-to-invisibility-spec 'ac-modes 'web-mode)
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-
-;; enable typescript-tslint checker
-(flycheck-add-mode 'typescript-tslint 'web-mode)
-;;end js dogshit.
 
 (setq gofmt-command "goimports")
 (add-hook 'before-save-hook #'gofmt-before-save)
