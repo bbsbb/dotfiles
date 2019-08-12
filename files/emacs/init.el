@@ -167,6 +167,25 @@
   (append flycheck-disabled-checkers
           '(json-jsonlist)))
 
+(defun loljs/force-eslint ()
+  (flycheck-mode t)
+  (flycheck-select-checker 'javascript-eslint))
+
+(defun loljs/local-eslint ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint
+          (and root
+               (expand-file-name "node_modules/.bin/eslint"
+                                 root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(add-hook 'js2-mode-hook #'loljs/force-eslint)
+(add-hook 'flycheck-mode-hook #'loljs/local-eslint)
+
+;; lol macs
 (exec-path-from-shell-initialize)
 
 (defun setup-tide-mode ()
@@ -186,12 +205,21 @@
 (add-hook 'before-save-hook #'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (custom-set-variables
-  '(clojure-align-forms-automatically t)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(clojure-align-forms-automatically t)
  '(grep-find-ignored-directories
    (quote
     ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target")))
  '(package-selected-packages
    (quote
-    (tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
+    (flymake-eslint tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
