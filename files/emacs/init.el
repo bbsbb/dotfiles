@@ -52,6 +52,12 @@
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (require 'go-autocomplete)
 (require 'auto-complete-config)
+(add-hook 'go-mode-hook
+          (lambda()
+            (make-local-variable 'ac-auto-start)
+            (make-local-variable 'ac-trigger-key)
+            (setq ac-auto-start nil)
+            (setq ac-trigger-key "TAB")))
 
 (global-auto-complete-mode t)
 (global-git-gutter-mode t)
