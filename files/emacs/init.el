@@ -1,8 +1,7 @@
 ;;; Code:
 (require 'package)
 
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -19,29 +18,38 @@
     clojure-mode
     elixir-mode
     ensime
+    esk
+    exec-path-from-shell
     flycheck
+    flymake-eslint
+    geiser
     git-gutter
     golint
     go-mode
+    graphql-mode
     jinja2-mode
     js2-mode
     haskell-mode
     helm
     helm-ag
     helm-projectile
+    lsp-mode
     magit
     markdown-mode
     org
     paredit
     php-mode
+    racket-mode
     rainbow-delimiters
     rainbow-mode
+    rjsx-mode
     sass-mode
     smex
     terraform-mode
     tuareg
     yaml-mode
-    yasnippet))
+    yasnippet
+    use-package))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -118,6 +126,7 @@
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
 (setq c-basic-indent 4)
+(setq js-indent-level 2)
 
 ;;Always show row position
 (column-number-mode t)
@@ -202,6 +211,11 @@
   ;;(company-mode +1)
   )
 
+;; Fucking racket, man.
+(setenv "PATH" (concat (getenv "PATH") ":/usr/racket/bin"))
+(setq exec-path (append exec-path '("/usr/racket/bin")))
+
+
 (setq gofmt-command "goimports")
 (add-hook 'before-save-hook #'gofmt-before-save)
 
@@ -217,10 +231,5 @@
     ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target")))
  '(package-selected-packages
    (quote
-    (flymake-eslint tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (use-package lsp-mode rjsx-mode graphql-mode racket-mode geiser flymake-eslint tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
+(custom-set-faces)
