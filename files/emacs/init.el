@@ -1,7 +1,8 @@
 ;;; Code:
 (require 'package)
 
-(setq package-archives '(("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -17,8 +18,6 @@
     cider
     clojure-mode
     elixir-mode
-    ensime
-    esk
     exec-path-from-shell
     flycheck
     flymake-eslint
@@ -45,6 +44,7 @@
     rjsx-mode
     sass-mode
     smex
+    tide
     terraform-mode
     tuareg
     yaml-mode
@@ -84,16 +84,20 @@
   (global-set-key (kbd "C-l") 'paredit-forward-up)
   (paredit-mode 1)
   (show-paren-mode 1))
+
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Cider integration + profile jack in.
+
 (defun jack-in-with-profile ()
   (interactive)
   (letrec ((profile (read-string "Profiles: "))
            (lein-params (concat "with-profile +" profile " repl :headless")))
     (set-variable 'cider-lein-parameters lein-params)
     (cider-jack-in)))
+
 (setq  cider-refresh-before-fn "integrant.repl/suspend")
 (setq  cider-refresh-after-fn "integrant.repl/resume")
+
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Helm & Projectile;;;;;;;;;;;;;;;;
 (require 'helm-config)
@@ -120,13 +124,13 @@
 (global-set-key (kbd "C-c C-d") 'make-directory)
 (global-set-key (kbd "C-c C-x") 'delete-directory)
 (global-prettify-symbols-mode 1)
+
 ;;Paredit config, sorry
 ;;Spaces please.
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
 (setq c-basic-indent 4)
-(setq js-indent-level 2)
 
 ;;Always show row position
 (column-number-mode t)
@@ -204,16 +208,23 @@
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  ;;(company-mode +1)
-  )
+  (tide-hl-identifier-mode +1))
 
 ;; Fucking racket, man.
 (setenv "PATH" (concat (getenv "PATH") ":/usr/racket/bin"))
 (setq exec-path (append exec-path '("/usr/racket/bin")))
+
+
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp))
+  :commands lsp
+  :custom
+  ((lsp-clojure-server-command '("java" "-jar" "/usr/local/bin/clj-kondo-lsp")))
+  :config
+  (dolist (m '(clojure-mode
+               clojurescript-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
 
 (setq gofmt-command "goimports")
@@ -221,15 +232,7 @@
 
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(clojure-align-forms-automatically t)
  '(grep-find-ignored-directories
    (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target")))
- '(package-selected-packages
-   (quote
-    (use-package lsp-mode rjsx-mode graphql-mode racket-mode geiser flymake-eslint tide tuareg exec-path-from-shell esk yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode golint go-mode git-gutter flycheck ensime elixir-mode ansible ac-cider))))
-(custom-set-faces)
+    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target"))))
