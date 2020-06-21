@@ -13,17 +13,15 @@
 
 (defvar my-packages
   '(ansible
-    ac-cider
-    auto-complete
     cider
     clojure-mode
+    company
     elixir-mode
     exec-path-from-shell
     flycheck
     flymake-eslint
     geiser
     git-gutter
-    golint
     go-mode
     graphql-mode
     jinja2-mode
@@ -44,7 +42,6 @@
     rjsx-mode
     sass-mode
     smex
-    tide
     terraform-mode
     tuareg
     yaml-mode
@@ -57,23 +54,62 @@
 
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;AUTO COMPLETE CONFIGURATION;;;;
-(add-to-list 'load-path "~/.emacs.d/elisp/")
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(add-hook 'go-mode-hook
-          (lambda()
-            (make-local-variable 'ac-auto-start)
-            (make-local-variable 'ac-trigger-key)
-            (setq ac-auto-start nil)
-            (setq ac-trigger-key "TAB")))
+(setq use-package-always-ensure t)
 
-(global-auto-complete-mode t)
+;;START:  LSP + Go
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+
+(use-package company
+  :diminish
+  :config
+  (global-company-mode 1)
+  (setq ;; Only 2 letters required for completion to activate.
+   company-minimum-prefix-length 2
+
+   ;; Search other buffers for compleition candidates
+   company-dabbrev-other-buffers t
+   company-dabbrev-code-other-buffers t
+   company-complete-number t
+   company-dabbrev-downcase nil
+   company-dabbrev-ignore-case t
+
+   ;; Immediately activate completion.
+   company-idle-delay 0)
+
+  (define-key company-active-map (kbd "TAB") #'company-complete-selection)
+  (define-key company-active-map (kbd "SPC") nil)
+  ;; AC on everything please.
+  (setq company-auto-complete-chars nil))
+
+(custom-set-faces
+ '(company-preview
+   ((t (:foreground "darkgray" :underline t))))
+ '(company-preview-common
+   ((t (:inherit company-preview))))
+ '(company-tooltip
+   ((t (:background "lightgray" :foreground "black"))))
+ '(company-tooltip-selection
+   ((t (:background "steelblue" :foreground "white"))))
+ '(company-tooltip-common
+   ((((type x)) (:inherit company-tooltip :weight bold))
+    (t (:inherit company-tooltip))))
+ '(company-tooltip-common-selection
+   ((((type x)) (:inherit company-tooltip-selection :weight bold))
+    (t (:inherit company-tooltip-selection)))))
+
 (global-git-gutter-mode t)
-
-(setq ac-quick-help-delay 0.5)
-(setq ac-auto-start 1)
-(setq ac-ignore-case nil)
-(ac-config-default)
 
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Enable paredit for some modes;;
@@ -84,10 +120,8 @@
   (global-set-key (kbd "C-l") 'paredit-forward-up)
   (paredit-mode 1)
   (show-paren-mode 1))
-
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Cider integration + profile jack in.
-
 (defun jack-in-with-profile ()
   (interactive)
   (letrec ((profile (read-string "Profiles: "))
@@ -97,7 +131,6 @@
 
 (setq  cider-refresh-before-fn "integrant.repl/suspend")
 (setq  cider-refresh-after-fn "integrant.repl/resume")
-
 ;;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;Helm & Projectile;;;;;;;;;;;;;;;;
 (require 'helm-config)
@@ -106,6 +139,7 @@
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching nil)
 (helm-projectile-on)
+
 ;;(setq helm-ag-use-grep-ignore-list t)
 (setq helm-ag-use-agignore t)
 (setq helm-display-header-line nil)
@@ -124,13 +158,13 @@
 (global-set-key (kbd "C-c C-d") 'make-directory)
 (global-set-key (kbd "C-c C-x") 'delete-directory)
 (global-prettify-symbols-mode 1)
-
 ;;Paredit config, sorry
 ;;Spaces please.
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
 (setq c-basic-indent 4)
+(setq js-indent-level 2)
 
 ;;Always show row position
 (column-number-mode t)
@@ -157,29 +191,12 @@
 (require 'ac-cider)
 
 (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-
-(eval-after-load "auto-complete"
-  '(progn
-     (add-to-list 'ac-modes 'cider-mode)
-     (add-to-list 'ac-modes 'cider-repl-mode)))
 
 (add-hook 'emacs-startup-hook 'setup-workspace)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'activate-paredit-mode-custom)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;;Js dogshit.
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
-
-(setq-default flycheck-temp-prefix ".flycheck")
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-          '(json-jsonlist)))
 
 (defun loljs/force-eslint ()
   (flycheck-mode t)
@@ -199,40 +216,35 @@
 (add-hook 'js2-mode-hook #'loljs/force-eslint)
 (add-hook 'flycheck-mode-hook #'loljs/local-eslint)
 
-;; lol macs
+;; lol mac os & racket
 (exec-path-from-shell-initialize)
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1))
-
-;; Fucking racket, man.
 (setenv "PATH" (concat (getenv "PATH") ":/usr/racket/bin"))
 (setq exec-path (append exec-path '("/usr/racket/bin")))
 
-
+;; LSP + Clojure + CLJ-Kondo
 (use-package lsp-mode
   :ensure t
   :hook ((clojure-mode . lsp))
   :commands lsp
-  :custom
-  ((lsp-clojure-server-command '("java" "-jar" "/usr/local/bin/clj-kondo-lsp")))
-  :config
-  (dolist (m '(clojure-mode
-               clojurescript-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
-
-
-(setq gofmt-command "goimports")
-(add-hook 'before-save-hook #'gofmt-before-save)
+  :custom ((lsp-clojure-server-command '("java" "-jar" "/home/zee/bin/clj-kondo-lsp")))
+  :config (dolist (m '(clojure-mode
+                       clojurescript-mode))
+            (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(clojure-align-forms-automatically t)
  '(grep-find-ignored-directories
-   (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target"))))
+   '("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "hicv" "pubilc" "target"))
+ '(package-selected-packages
+   '(json-mode flycheck-clj-kondo use-package lsp-mode rjsx-mode graphql-mode racket-mode geiser flymake-eslint tide tuareg exec-path-from-shell yaml-mode smex sass-mode rainbow-mode rainbow-delimiters php-mode paredit org markdown-mode magit js2-mode jinja2-mode helm-projectile helm-ag groovy-mode go-mode git-gutter flycheck elixir-mode ansible)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
