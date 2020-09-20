@@ -1,0 +1,12 @@
+---
+- name: "Download the NVM installer."
+  get_url:
+    url: "https://raw.githubusercontent.com/nvm-sh/nvm/{{javascript.nvm.version}}/install.sh"
+    dest: "/tmp/nvm-installer.sh"
+    checksum: "sha256:{{javascript.nvm.checksum}}"
+    mode: "0755"
+
+- name: "Run the NVM installer"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  command: "/tmp/nvm-installer.sh"

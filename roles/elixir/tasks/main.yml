@@ -1,0 +1,17 @@
+---
+- name: Add Erlang Solutions public key
+  apt_key:
+    url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+    state: present
+
+- name: Add Erlang Solutions repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.erlang-solutions.com/ubuntu focal contrib"
+    state: present
+
+- name: Install elixir
+  apt:
+    name:
+      - elixir
+    state: present
+    update_cache: yes

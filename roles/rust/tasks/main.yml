@@ -1,0 +1,42 @@
+---
+- name: "Detect currently installed go version"
+  shell: rustc --version | grep -c '{{rust.version}}'
+  register: version_matching
+  ignore_errors: true
+
+- name: "Download the specified rust installer"
+  get_url:
+    url: "https://static.rust-lang.org/dist/rust-{{rust.version}}-x86_64-unknown-linux-gnu.tar.gz"
+    dest: "/tmp/rust.tar.gz"
+    checksum: "{{rust.checksum}}"
+    mode: "0755"
+  when: version_matching.stdout == '0'
+
+- name: "Creates a temporary directory for the installer"
+  file:
+    path: "/tmp/rust"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+  when: version_matching.stdout == '0'
+
+- name: "Extract to tmp path"
+  unarchive:
+    src: "/tmp/rust.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+    creates: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
+  when: version_matching.stdout == '0'
+
+- name: "Set installer to executable"
+  file:
+    path: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
+    mode: '0755'
+  when: version_matching.stdout == '0'
+
+- name: "Run the rust installer."
+  become: yes
+  become_user: "root"
+  command: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
+  when: version_matching.stdout == '0'

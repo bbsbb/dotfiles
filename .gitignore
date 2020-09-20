@@ -1,2 +1,3 @@
-/secure-hosts
-/initial-hosts
+.vault-pass.txt
+inventories/live
+vars/vault.yml

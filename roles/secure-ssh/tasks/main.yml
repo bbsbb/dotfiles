@@ -1,35 +1,14 @@
 ---
-- name: Add SSH key for the user.
-  authorized_key:
-    user: "{{ ssh_params.user }}"
-    key: "{{ item.key }}"
-    state: present
-  with_items: "{{ ssh_params.authorized_keys }}"
-
-- name: Setup alternate SSH port
-  lineinfile:
+- include: user.yml
+- name: Harden SSHD configuration.
+  template:
+    src: "sshd_config.j2"
     dest: "/etc/ssh/sshd_config"
-    regexp: "^Port"
-    line: "Port {{ ssh_params.port }}"
-  notify: "Restart SSH service"
+    owner: root
+    group: root
+    mode: 0644
 
-- name: Disable X forwarding.
-  lineinfile:
-    dest: "/etc/ssh/sshd_config"
-    regexp: "^X11Forwarding"
-    line: "X11Forwarding no"
-  notify: "Restart SSH service"
-
-- name: Disable empty passwords
-  lineinfile:
-    dest: "/etc/ssh/sshd_config"
-    regexp: "^#?PermitEmptyPasswords"
-    line: "PermitEmptyPasswords no"
-  notify: "Restart SSH service"
-
-- name: Keys only login.
-  lineinfile:
-    dest: "/etc/ssh/sshd_config"
-    regexp: "^#?PasswordAuthentication"
-    line: "PasswordAuthentication no"
-  notify: "Restart SSH service"
+-  name: SSH service reload
+   command: /bin/true
+   notify:
+     - Restart SSH service

@@ -1,0 +1,34 @@
+---
+- name: "Verify at least one ssh key is defined"
+  assert:
+    that: (ssh.authorized_keys|length) > 0
+    fail_msg: "No sshkeys are defined, aborting to prevent lockout"
+- name: "If we don't have sudo, we're going to lock ourselves out. Let's not."
+  apt:
+    name:
+      - openssh-server
+      - sudo
+    update_cache: yes
+    dpkg_options: 'force-confold'
+    state: latest
+- name: "Remove an ubuntu user if such a thing is present. We don't want it."
+  user:
+    name: ubuntu
+    state: absent
+    remove: yes
+- name: Ensure that the "admin" group exists
+  group:
+    name: admin
+    state: present
+- name: Add our login user.
+  user:
+    name: "{{ ssh.user }}"
+    groups: admin,sudo
+    password: "{{ vault.login_password | string | password_hash('sha512') }}"
+    append: yes
+- name: Add SSH keys to our login user.
+  authorized_key:
+    user: "{{ ssh.user }}"
+    key: "{{ item.key }}"
+    state: "{{ item.state }}"
+  with_items: "{{ ssh.authorized_keys }}"

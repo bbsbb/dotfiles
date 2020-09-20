@@ -1,0 +1,29 @@
+---
+- name: Add emacs snapshot repository
+  apt_repository:
+    repo: ppa:ubuntu-elisp/ppa
+    state: present
+
+- name: Install emacs snapshot.
+  apt:
+    name: emacs-snapshot
+    state: present
+    update_cache: yes
+
+- name: "Make sure the emacs configuration directory exists"
+  file:
+    path: "/home/{{ ssh.user }}/.emacs.d"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+
+- name: Add personal configuration.
+  become: yes
+  become_user: "{{ ssh.user }}"
+  template:
+    src: "init.el.j2"
+    dest: "/home/{{ ssh.user }}/.emacs.d/init.el"
+    mode: 0644
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"

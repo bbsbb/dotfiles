@@ -1,0 +1,31 @@
+---
+- name: "Is snap there?"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  stat:
+    path: "/usr/bin/snap"
+  register: snap_installed
+- name: Remove lxd
+  snap:
+    name:
+      - lxd
+    state: absent
+  when: snap_installed.stat.exists == true
+- name: Remove core
+  snap:
+    name:
+      - core18
+    state: absent
+  when: snap_installed.stat.exists == true
+- name: Remove snapd
+  snap:
+    name:
+      - snapd
+    state: absent
+  when: snap_installed.stat.exists == true
+- name: Purge snapd
+  apt:
+    name:
+      - snapd
+    purge: yes
+    state: absent

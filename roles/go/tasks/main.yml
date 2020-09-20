@@ -1,0 +1,46 @@
+---
+- name: "Detect currently installed go version"
+  shell: /usr/local/go/bin/go version | grep -c '{{go.version}}'
+  register: version_matching
+  ignore_errors: true
+
+- name: "Purge existing go folder"
+  file:
+    path: "/usr/local/go"
+    state: absent
+  when: version_matching.stdout == '0'
+
+- name: "Download the specified golang version"
+  get_url:
+    url: "https://golang.org/dl/go{{go.version}}.linux-amd64.tar.gz"
+    dest: "/tmp/go.tar.gz"
+    checksum: "{{go.checksum}}"
+    mode: "0755"
+  when: version_matching.stdout == '0'
+
+- name: "Extract to golang path"
+  unarchive:
+    src: "/tmp/go.tar.gz"
+    dest: "/usr/local"
+    remote_src: yes
+    creates: "/usr/local/go/bin/go"
+  when: version_matching.stdout == '0'
+
+- name: "Create Go directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+  with_items:
+    - "~/src/go/bin"
+    - "~/src/go/src"
+    - "~/src/go/pkg"
+  when: version_matching.stdout == '0'
+
+- name: "Install gopls"
+  shell: "GOPATH=/home/{{ssh.user}}/src/go GO111MODULE=on /usr/local/go/bin/go get -u golang.org/x/tools/gopls@latest"
+  args:
+    executable: /usr/bin/zsh
+    creates: "~/src/golang/bin/gopls"

@@ -1,36 +1,96 @@
-# Configuration & Provisioning of an Ubuntu 16.04 Desktop/Devenv
+# Dotfiles [++]
 
-I got annoyed with my mac enough to move back to linux. It felt about time to automate a part of the setup.
-The repository contains the following sections.
+The repository is used to configure a development machine starting from a
+minimal ubuntu server install. It includes gui and tooling as well as multiple roles for keeping
+runtimes of various programming languages up to date.
 
-## Development environment & tools.
 
-It brings docker, git, jq, httpie, pip, ag, tmux, zsh, powerline, emacs and customized configuration for some of the above.
+## Requirements
+
+* Clean, Ubuntu 20.04 **Server** minimal installation with ssh access, Ansible version >2.9 and GNU make.
+
 
 ## Usage
 
-All you need is ansible/ssh installed on an Ubuntu 16.04 target.
-If you are familiar with ansible, just use the command line to run whatever you like(localhost etc).
-If not, stick to the makefile.
+1. Create an inventories file called `live` in `inventories/` (see `examples/inventories/`)
+2. Create a provisioning file `task`.yml at the root of the repository. (see `examples/template/`)
+3. Execute:
 
-* `git clone https://github.com/bbsbb/dotfiles.git` and cd to the root folder.
-* Create a file called initial-hosts with the following contents
 ```
-[desktop_machines]
-<insert ip of the target machine running ssh+ansible>
+    make with-target TARGET=<task>
 ```
-* Open `vars/development-params.yml` and adjust as you like.
-* Run `make secure-ssh`
-* Create another file, called secure-hosts with the following contents
-```
-[desktop_machines]
-<same ip as above>  ansible_port=4423
-```
-* Run `make docker` to install docker.
-* Run `make clojure` for openjdk + lein.
-* Run `make golang` for go, gocode & glide.
+
+For advanced usage lookup ansible var files.
+
+
+## Available roles
+
+
+### Utility
+
+* **secure-ssh**
+  - Trivial parameter changes to SSH according to configuration.
+* **purge-snap**
+  - Remove snap for good (ubuntu can still pull it via hard apt dependency)
+* **zsh**
+  - adjust default shell to zsh
+* **gui-base**
+  - xorg, openbox, lightdm, tint2 + utilities.
+* **dev-base**
+  - git, tmux, jq, ag, build-essential meta.
+* **gui-extras**
+  - firefox
+* **docker**
+  - Docker + docker-compose.
+
+
+### Programming Languages
+
+* **clojure**
+  * OpenJDK - v11
+  * Clojure Cli - v1.10.1.727
+  * Lein - v2.9.4.
+  * CLJ Kondo LSP - v2020.11.97
+
+* **go**
+  * Golang - v1.15.5
+  * Gopls - Latest
+  * Specifics - GOPATH set, gomodules on.
+
+* **elixir**
+  * Elixir - Latest packaged by ES
+
+* **javascript**
+  * NVM - v0.37.0
+
+* **haskell**
+  * GHC - 7.10.3
+  * Cabal - 3.4
+
+* **kotlin**
+  * Kotlinc - 1.4.10
+
+* **python**
+  * Pipenv - Latest
+
+* **racket**
+  * Racket - v7.9
+
+* **rust**
+  * Rust - v1.47.0
+
+## Editors
+
+* **Emacs**
+  * A Custom emacs configuration running on nightly.
+
+
+## Disclaimer
+
+This is a personal repository, synchronized between multiple machines and as such is often kept up to date
+and there is no guarantee on the state of the master branch.
+
 
 ## License
 
-Copyright © 2017
-Distributed under the MIT License
+MIT License

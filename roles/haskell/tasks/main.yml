@@ -1,0 +1,14 @@
+---
+- name: "Add the Haskell PPA"
+  apt_repository:
+    repo: 'ppa:hvr/ghc'
+    state: present
+    filename: 'haskell'
+
+- name: "Install GHC & Cabal"
+  apt:
+    name:
+      - "ghc-{{haskell.ghc}}"
+      - "cabal-install-{{haskell.cabal}}"
+    update_cache: yes
+    state: latest

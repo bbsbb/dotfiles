@@ -1,0 +1,14 @@
+---
+- name: "Make sure a local bin directory exists"
+  file:
+    path: "/usr/local/bin"
+    state: directory
+    mode: 0755
+- name: "Create a bin directory for the user in the home folder"
+  file:
+    path: "/home/{{ ssh.user }}/bin"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+- include: firefox.yml

@@ -1,0 +1,28 @@
+---
+- name: "Install additional utilities."
+  apt:
+    name:
+      - arandr
+      - build-essential
+      - curl
+      - git
+      - jq
+      - locales
+      - powerline
+      - python3-pip
+      - rlwrap
+      - silversearcher-ag
+      - tmux
+    update_cache: yes
+    dpkg_options: 'force-confold'
+    state: latest
+- name: Ensure a locale exists
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+- name: "Adjust tmux configuration"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  copy:
+    src: "./files/tmux/.tmux.conf"
+    dest: "/home/{{ ssh.user }}/.tmux.conf"

@@ -1,0 +1,38 @@
+---
+- name: "Check if we already have kotlinc as output redirection is a bitch in ansible."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  stat:
+    path: "/opt/kotlin/kotlinc/bin/kotlinc"
+  register: kotlin_installed
+
+- name: "Purge existing kotlinc folder"
+  file:
+    path: "/opt/kotlin/kotlinc"
+    state: absent
+  when: kotlin_installed.stat.exists == false
+
+- name: "Download the specified Kotlin version"
+  get_url:
+    url: "https://github.com/JetBrains/kotlin/releases/download/v{{kotlin.version}}/kotlin-compiler-{{kotlin.version}}.zip"
+    dest: "/tmp/kotlin.tar.gz"
+    checksum: "{{kotlin.checksum}}"
+    mode: "0755"
+  when: kotlin_installed.stat.exists == false
+
+- name: "Create the optional kotlin path if it doesn't exist"
+  file:
+    path: "/opt/kotlin"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+  when: kotlin_installed.stat.exists == false
+
+- name: "Extract to Kotlin path in /opt"
+  unarchive:
+    src: "/tmp/kotlin.tar.gz"
+    dest: "/opt/kotlin"
+    remote_src: yes
+    creates: "/opt/kotlin/kotlinc/bin/kotlinc"
+  when: kotlin_installed.stat.exists == false

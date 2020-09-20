@@ -1,0 +1,22 @@
+- name: "Add a set of programming languages to an ubuntu environment"
+  hosts: desktop
+  gather_facts: no
+  vars_files:
+    - vars/programming.yml
+  roles:
+    - meta
+
+    #- { role: zsh, become: yes, become_user: root, become_method: sudo
+}
+    #----Programming Languages----#
+    - { role: clojure, become: yes, become_user: root, become_method: sudo}
+    - { role: go, become: yes, become_user: root, become_method: sudo}
+    - { role: elixir, become: yes, become_user: root, become_method: sudo}
+    - { role: javascript, become: yes, become_user: root, become_method: sudo}
+    - { role: haskell, become: yes, become_user: root, become_method: sudo}
+    - { role: python, become: yes, become_user: root, become_method: sudo}
+    - { role: racket, become: yes, become_user: root, become_method: sudo}
+    - { role: rust, become: yes, become_user: root, become_method: sudo}
+
+    #----Emacs----#
+    #- { role: emacs, become: yes, become_user: root, become_method: sudo}

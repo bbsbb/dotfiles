@@ -1,0 +1,26 @@
+---
+- name: "Configure LDM"
+  copy:
+    src: "./files/lightdm/openbox.conf"
+    dest: "/etc/lightdm/lightdm.conf.d/openbox.conf"
+
+- name: "Configure Openbox"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  copy:
+    src: "./files/openbox/"
+    dest: "~/.config/openbox/"
+
+- name: "Add the openbox menu.xml"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  template:
+    src: "menu.xml.j2"
+    dest: "~/.config/openbox/menu.xml"
+
+- name: "Add the autostart.sh for openbox"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  template:
+    src: "autostart.sh.j2"
+    dest: "~/.config/openbox/autostart.sh"

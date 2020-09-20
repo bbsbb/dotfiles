@@ -1,0 +1,56 @@
+---
+- name: "Test Root user on default SSH port"
+  local_action: >
+      shell ssh -o ConnectTimeout=10 root@{{ inventory_hostname }}
+      "echo success"
+  register: ssh_root
+  ignore_errors: true
+
+- name: "Test Root user on secure SSH port"
+  local_action: >
+    shell ssh -p {{ssh.port}} -o ConnectTimeout=10 root@{{ inventory_hostname }}
+    "echo success"
+  register: ssh_root_secure
+  ignore_errors: true
+
+- name: "Test {{ ssh.user }} on default SSH port"
+  local_action: >
+      shell ssh -o ConnectTimeout=10 {{ ssh.user }}@{{ inventory_hostname }}
+      "echo success"
+  register: ssh_user
+  ignore_errors: true
+
+- name: Test secure SSH port
+  local_action: >
+    shell ssh -p {{ssh.port}} -o ConnectTimeout=10 {{ ssh.user }}@{{ inventory_hostname }}
+    "echo success"
+  register: ssh_user_secure
+  ignore_errors: true
+
+- name: Fail if no SSH ports are open
+  fail:
+    msg: "SSH not accessible on default or secure port - unable to continue with notebook"
+  when: >
+    ssh_root.stdout.find("success") == -1 and
+    ssh_root_secure.stdout.find("success") == -1 and
+    ssh_user.stdout.find("success") == -1 and
+    ssh_user_secure.stdout.find("success") == -1
+
+- name: Setting SSH user if none was found
+  set_fact:
+    ansible_user: root
+  when: >
+    ssh_root.stdout.find("success") != -1 or ssh_root_secure.stdout.find("success") != -1
+
+- name: Setting regular SSH user if required.
+  set_fact:
+    ansible_user: "{{ssh.user}}"
+  when: >
+    ssh_user.stdout.find("success") != -1 or ssh_user_secure.stdout.find("success") != -1
+
+- name: Update ansible SSH ports per host.
+  set_fact:
+    ansible_port: "{{ssh.port}}"
+  when: >
+    ssh_root_secure.stdout.find("success") != -1 or
+    ssh_user_secure.stdout.find("success") != -1

@@ -1,29 +1,32 @@
 ---
-- name: "Install latest OpenJDK."
+- name: "Install latest OpenJDK 11."
   apt:
     name:
-      - default-jdk
+      - openjdk-11-jre
     update_cache: yes
     state: latest
 
-- name: "Check if we have a local leinignen profile."
-  become: yes
-  become_user: "{{ ssh_params.user }}"
-  stat:
-    path: "~/.lein/profiles.clj"
-  register: has_lein_profile
-
-- name: "Install leiningen."
+- name: "Install latest leiningen."
   get_url:
-    dest: "/usr/local/bin"
+    dest: "/home/{{ ssh.user }}/bin/lein"
     url: "https://raw.github.com/technomancy/leiningen/stable/bin/lein"
     mode: "a+x"
-  when: has_lein_profile.stat.exists == false
 
-- name: "Copy leiningen profile."
+- name: "Install Clojure CLI"
+  get_url:
+    url: "https://download.clojure.org/install/linux-install-{{clojure.version}}.sh"
+    dest: "/tmp/install-clj"
+    checksum: "{{clojure.checksum}}"
+    mode: "a+x"
+
+- name: "Run Clojure installer"
   become: yes
-  become_user: "{{ ssh_params.user }}"
-  copy:
-    src: "./files/lein/"
-    dest: "/home/{{ ssh_params.user }}/.lein/"
-  when: has_lein_profile.stat.exists == false
+  become_user: "root"
+  command: "/tmp/install-clj"
+
+- name: "Install clj-kondo."
+  get_url:
+    url: "https://github.com/borkdude/clj-kondo/releases/download/v{{kondo.version}}/clj-kondo-lsp-server-{{kondo.version}}-standalone.jar"
+    dest: "/home/{{ ssh.user }}/bin/clj-kondo-lsp"
+    checksum: "{{kondo.checksum}}"
+    mode: "a+x"

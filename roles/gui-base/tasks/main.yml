@@ -1,0 +1,40 @@
+---
+- name: "Install and configure X environment"
+  apt:
+    name:
+      - xorg
+      - openbox
+      - lightdm
+      - tint2
+      - fonts-inconsolata
+      - nautilus
+      - nitrogen
+      - pasystray
+      - pavucontrol
+      - suckless-tools
+      - xfce4-power-manager
+      - acpid
+    update_cache: yes
+    dpkg_options: 'force-confold'
+    state: latest
+
+- name: "Regenerate font cache"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  command: "fc-cache -f -v"
+
+- name: "Configure Tint 2"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  copy:
+    src: "./files/tint2/"
+    dest: "~/.config/tint2/"
+
+- name: "Copy background images"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  copy:
+    src: "./files/pics/"
+    dest: "~/pics/"
+
+- include: openbox.yml

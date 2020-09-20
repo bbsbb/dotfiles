@@ -1,0 +1,3 @@
+haskell:
+  ghc: 7.10.3
+  cabal: 3.4

@@ -1,0 +1,25 @@
+---
+- name: "Detect currently installed Racket version"
+  shell: racket --version | grep -c '{{racket.version}}'
+  register: version_matching
+  ignore_errors: true
+
+- name: "Purge existing Racket folder if applicable"
+  file:
+    path: "/opt/racket"
+    state: absent
+  when: version_matching.stdout == '0'
+
+- name: "Download the Racket installer"
+  get_url:
+    url: "https://mirror.racket-lang.org/installers/{{racket.version}}/racket-{{racket.version}}-x86_64-linux.sh"
+    dest: "/tmp/racket-installer.sh"
+    checksum: "{{racket.checksum}}"
+    mode: "0755"
+  when: version_matching.stdout == '0'
+
+- name: "Run the racket installer."
+  become: yes
+  become_user: "root"
+  command: "/tmp/racket-installer.sh --in-place --dest /opt/racket"
+  when: version_matching.stdout == '0'

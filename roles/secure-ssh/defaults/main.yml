@@ -1,0 +1,4 @@
+ssh:
+  user: root
+  port: 22
+  authorized_keys: []

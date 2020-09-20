@@ -1,0 +1,51 @@
+---
+- name: "Install latest ZSH version"
+  apt:
+    name:
+      - zsh
+    update_cache: yes
+    dpkg_options: 'force-confold'
+    state: latest
+- name: "Change default shell to ZSH"
+  user:
+    name: "{{ ssh.user }}"
+    shell: "/usr/bin/zsh"
+- name: "Add .zhsrc."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  template:
+    src: "zshrc.j2"
+    dest: "/home/{{ ssh.user }}/.zshrc"
+    mode: 0644
+- name: "Check if we have a patched zsh."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  stat:
+    path: "~/.oh-my-zsh/oh-my-zsh.patch"
+  register: zsh_patched
+- name: "Fetch Oh My Zsh."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  git:
+    repo: "https://github.com/robbyrussell/oh-my-zsh.git"
+    dest: "~/.oh-my-zsh"
+    accept_hostkey: true
+  when: zsh_patched.stat.exists == false
+- name: "Copy ZSH prompt patch."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  copy:
+    src: "./files/oh-my-zsh/oh-my-zsh.patch"
+    dest: "/home/{{ ssh.user }}/.oh-my-zsh/oh-my-zsh.patch"
+- name: "Run GIT command to apply ZSH patch."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  command: "git apply oh-my-zsh.patch"
+  args:
+    chdir: "/home/{{ ssh.user }}/.oh-my-zsh"
+  when: zsh_patched.stat.exists == false
+- name: Change the default shell to zsh.
+  user:
+    name: "{{ ssh.user }}"
+    shell: /usr/bin/zsh
+    append: yes
