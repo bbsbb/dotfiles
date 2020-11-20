@@ -1,3 +1,5 @@
 .vault-pass.txt
 inventories/live
-vars/vault.yml
+vars/*.yml
+desktop.yml
+laptop.yml
