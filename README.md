@@ -77,7 +77,7 @@ For advanced usage lookup ansible var files.
   * Racket - v7.9
 
 * **rust**
-  * Rust - v1.47.0
+  * Rust - v1.48.0
 
 ## Editors
 
