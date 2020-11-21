@@ -216,9 +216,9 @@
 (add-hook 'flycheck-mode-hook #'loljs/local-eslint)
 
 ;; Mac is finally gone, but keep this here for now
-;;(exec-path-from-shell-initialize)
-;;(setenv "PATH" (concat (getenv "PATH") ":/opt/racket/bin"))
-;;(setq exec-path (append exec-path '("/opt/racket/bin")))
+(exec-path-from-shell-initialize)
+(setenv "PATH" (concat (getenv "PATH") ":/opt/racket/bin"))
+(setq exec-path (append exec-path '("/opt/racket/bin")))
 
 ;;;;;;;;;;;;;;;;;END;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
