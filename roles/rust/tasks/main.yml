@@ -1,42 +1,22 @@
 ---
-- name: "Detect currently installed go version"
-  shell: rustc --version | grep -c '{{rust.version}}'
-  register: version_matching
-  ignore_errors: true
-
-- name: "Download the specified rust installer"
-  get_url:
-    url: "https://static.rust-lang.org/dist/rust-{{rust.version}}-x86_64-unknown-linux-gnu.tar.gz"
-    dest: "/tmp/rust.tar.gz"
-    checksum: "{{rust.checksum}}"
-    mode: "0755"
-  when: version_matching.stdout == '0'
-
-- name: "Creates a temporary directory for the installer"
+- name: "Create rust tools directory"
   file:
-    path: "/tmp/rust"
-    state: directory
+    path: "/home/{{ssh.user}}/.cargo/bin"
+    state: directory\
     mode: 0755
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
-  when: version_matching.stdout == '0'
 
-- name: "Extract to tmp path"
-  unarchive:
-    src: "/tmp/rust.tar.gz"
-    dest: "/tmp"
-    remote_src: yes
-    creates: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
-  when: version_matching.stdout == '0'
+- name: "Download Rustup version {{rustup.version}}"
+  get_url:
+    url: "https://static.rust-lang.org/rustup/archive/1.22.1/x86_64-unknown-linux-gnu/rustup-init"
+    dest: "/home/{{ ssh.user }}/.cargo/bin/rustup"
+    checksum: "{{rustup.checksum}}"
+    mode: "a+x"
 
-- name: "Set installer to executable"
-  file:
-    path: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
-    mode: '0755'
-  when: version_matching.stdout == '0'
-
-- name: "Run the rust installer."
-  become: yes
-  become_user: "root"
-  command: "/tmp/rust-{{rust.version}}-x86_64-unknown-linux-gnu/install.sh"
-  when: version_matching.stdout == '0'
+- name: "Download Rust analyzer version {{analyzer.version}}"
+  get_url:
+    url: "https://github.com/rust-analyzer/rust-analyzer/releases/download/{{analyzer.version}}/rust-analyzer-linux"
+    dest: "/home/{{ ssh.user }}/bin/rust-analyzer"
+    checksum: "{{analyzer.checksum}}"
+    mode: "a+x"
