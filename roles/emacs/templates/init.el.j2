@@ -58,13 +58,8 @@
 ;;;;;;;;;;;;;;;;;;AUTO COMPLETE CONFIGURATION;;;;
 (setq use-package-always-ensure t)
 
-;;START:  LSP + Go
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred))
-
-;; LSP + Clojure + CLJ-Kondo
+;;;;;;;:START LSP;;;;;;;;;;;;;;;
+;;;;;;;;LSP: Clojure + CLJ-Kondo;;;;;
 (use-package lsp-mode
   :ensure t
   :hook ((clojure-mode . lsp))
@@ -74,11 +69,23 @@
                        clojurescript-mode))
             (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
+;;;;;;;;LSP: Clojure + CLJ-Kondo;;;;;
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+;;;;;;;;LSP: Rust w/ RLS;;;;;
+(use-package lsp-mode
+  :ensure t
+  :hook (rust-mode . lsp))
+
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package company-lsp :commands company-lsp)
