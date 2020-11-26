@@ -2,7 +2,7 @@
 - name: "Create rust tools directory"
   file:
     path: "/home/{{ssh.user}}/.cargo/bin"
-    state: directory\
+    state: directory
     mode: 0755
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
