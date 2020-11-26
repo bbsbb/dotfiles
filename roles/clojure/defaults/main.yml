@@ -1,5 +1,5 @@
 clojure:
-  version: "1.10.1.727p"
+  version: "1.10.1.727"
   checksum: "sha256:e6e27030eabab54f085befef6e4c455d05ec2064718267c087d5fed9d266b438"
 kondo:
   version: "2020.11.07"
