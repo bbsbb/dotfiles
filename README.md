@@ -68,7 +68,7 @@ For advanced usage lookup ansible var files.
   * Cabal - 3.4
 
 * **kotlin**
-  * Kotlinc - 1.4.10
+  * Kotlinc - 1.4.20
 
 * **python**
   * Pipenv - Latest
@@ -77,7 +77,8 @@ For advanced usage lookup ansible var files.
   * Racket - v7.9
 
 * **rust**
-  * Rust - v1.48.0
+  * Rustup - v1.21.1
+  * Rust analyzer - release 2020-11-13
 
 ## Editors
 

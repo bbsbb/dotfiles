@@ -14,6 +14,7 @@
     - { role: elixir, become: yes, become_user: root, become_method: sudo}
     - { role: javascript, become: yes, become_user: root, become_method: sudo}
     - { role: haskell, become: yes, become_user: root, become_method: sudo}
+    - { role: kotlin, become: yes, become_user: root, become_method: sudo}
     - { role: python, become: yes, become_user: root, become_method: sudo}
     - { role: racket, become: yes, become_user: root, become_method: sudo}
     - { role: rust, become: yes, become_user: root, become_method: sudo}
