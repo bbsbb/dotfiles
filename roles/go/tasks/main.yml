@@ -40,6 +40,7 @@
   when: version_matching.stdout == '0'
 
 - name: "Install gopls"
+  remote_user: "{{ssh.user}}"
   shell: "GOPATH=/home/{{ssh.user}}/src/go GO111MODULE=on /usr/local/go/bin/go get -u golang.org/x/tools/gopls@latest"
   args:
     executable: /usr/bin/zsh
