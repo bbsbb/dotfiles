@@ -69,16 +69,11 @@
                        clojurescript-mode))
             (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
-;;;;;;;;LSP: Clojure + CLJ-Kondo;;;;;
+;;;;;;;;LSP: GO + GOpls;;;;;
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
-
-;;;;;;;;LSP: Rust w/ RLS;;;;;
-(use-package lsp-mode
-  :ensure t
-  :hook (rust-mode . lsp))
 
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -86,7 +81,12 @@
 
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
+;;;;;;;;LSP: Rust w/ RLS;;;;;
+(use-package lsp-mode
+  :ensure t
+  :hook (rust-mode . lsp))
 
+;;;;;;;;LSP: Overall interaction with autocomplete/helm;;;;;
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package company-lsp :commands company-lsp)
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
