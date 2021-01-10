@@ -1,6 +1,6 @@
 clojure:
-  version: "1.10.1.727"
-  checksum: "sha256:e6e27030eabab54f085befef6e4c455d05ec2064718267c087d5fed9d266b438"
+  version: "1.10.1.763"
+  checksum: "sha256:91421551872d421915c4a598741aefcc6749d3f4aafca9c08f271958e5456e2c"
 kondo:
-  version: "2020.11.07"
-  checksum: "sha256:c2f2bd34daa58fb891c41b875342be6b686b41a393d893aad7e4c811b4201193"
+  version: "2020.12.12"
+  checksum: "sha256:cf39b95bc9920e49679b85375414a87fcf1ca62cd1ffd9418de3e876047bdde5"

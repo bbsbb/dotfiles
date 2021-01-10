@@ -3,6 +3,7 @@
   apt:
     name:
       - openjdk-11-jre
+      - rlwrap
     update_cache: yes
     state: latest
 
@@ -12,17 +13,24 @@
     url: "https://raw.github.com/technomancy/leiningen/stable/bin/lein"
     mode: "a+x"
 
+- name: "Detect currently installed CLJ cli version"
+  shell: clj --help | grep -c '{{clojure.version}}'
+  register: clj_version_matching
+  ignore_errors: true
+
 - name: "Install Clojure CLI"
   get_url:
     url: "https://download.clojure.org/install/linux-install-{{clojure.version}}.sh"
     dest: "/tmp/install-clj"
     checksum: "{{clojure.checksum}}"
     mode: "a+x"
+  when: clj_version_matching.stdout == '0'
 
 - name: "Run Clojure installer"
   become: yes
   become_user: "root"
   command: "/tmp/install-clj"
+  when: clj_version_matching.stdout == '0'
 
 - name: "Install clj-kondo."
   get_url:

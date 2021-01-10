@@ -10,7 +10,6 @@
       - locales
       - powerline
       - python3-pip
-      - rlwrap
       - silversearcher-ag
       - tmux
     update_cache: yes
