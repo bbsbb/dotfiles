@@ -257,6 +257,11 @@
 (use-package lsp-ui
   :commands lsp-ui-mode)
 
+(use-package prettier-js
+  :diminish t
+  :hook ((typescript-mode . prettier-js-mode)
+         (rjsx-mode . prettier-js-mode)))
+
 ;;==========================
 ;; Paredit - Delimiter balancing.
 ;;==========================
