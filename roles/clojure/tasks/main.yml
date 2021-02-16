@@ -1,12 +1,4 @@
 ---
-- name: "Install latest OpenJDK 11."
-  apt:
-    name:
-      - openjdk-11-jre
-      - rlwrap
-    update_cache: yes
-    state: latest
-
 - name: "Install latest leiningen."
   get_url:
     dest: "/home/{{ ssh.user }}/bin/lein"

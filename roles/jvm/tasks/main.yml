@@ -1,4 +1,13 @@
 ---
+- name: "Install OpenJDK 11/14."
+  apt:
+    name:
+      - openjdk-11-jre
+      - openjdk-14-jre
+      - rlwrap
+    update_cache: yes
+    state: latest
+
 - name: "Check if we already have a jenv folder"
   become: yes
   become_user: "{{ ssh.user }}"
