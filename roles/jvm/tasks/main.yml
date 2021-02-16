@@ -1,0 +1,35 @@
+---
+- name: "Check if we already have a jenv folder"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  stat:
+    path: "/home/{{ ssh.user }}/.jenv/bin"
+  register: jenv_installed
+
+- name: "Download the specified JENV version"
+  get_url:
+    url: "https://github.com/jenv/jenv/archive/{{jenv.version}}.tar.gz"
+    dest: "/tmp/jenv.tar.gz"
+    checksum: "{{jenv.checksum}}"
+    mode: "0755"
+  when: jenv_installed.stat.exists == false
+
+- name: "Create jenv directory if it doesn't exist"
+  file:
+    path: "/home/{{ ssh.user }}/.jenv"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+  when: jenv_installed.stat.exists == false
+
+- name: "Extract to Jenv path in /home"
+  unarchive:
+    src: "/tmp/jenv.tar.gz"
+    dest: "/home/{{ ssh.user }}/.jenv"
+    remote_src: yes
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+    creates: "/home/{{ ssh.user }}/.jenv/bin"
+    extra_opts: [--strip-components=1]
+  when: jenv_installed.stat.exists == false

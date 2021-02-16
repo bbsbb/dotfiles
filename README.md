@@ -43,6 +43,9 @@ For advanced usage lookup ansible var files.
 * **docker**
   - Docker + docker-compose.
 
+### Environment managers
+
+* **[jenv](https://github.com/jenv/jenv)** - 0.5.4
 
 ### Programming Languages
 

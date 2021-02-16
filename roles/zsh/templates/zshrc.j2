@@ -12,6 +12,12 @@ export GOPATH=/home/{{ssh.user}}/src/go
 # JS
 [ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
 
+# Jenv
+if [[ -d "/home/{{ssh.user}}/.jenv/bin" ]]; then
+    export PATH="$PATH:/home/{{ssh.user}}/.jenv/bin"
+    eval "$(jenv init -)"
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # Override locales at end
