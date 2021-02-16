@@ -48,9 +48,9 @@ For advanced usage lookup ansible var files.
 
 * **clojure**
   * OpenJDK - v11
-  * Clojure Cli - v1.10.1.763
+  * Clojure Cli - v1.10.2.774
   * Lein - v2.9.4.
-  * CLJ Kondo LSP - v2020.12.12
+  * CLJ Kondo LSP - v2021.02.13
 
 * **go**
   * Golang - v1.15.5
