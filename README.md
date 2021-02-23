@@ -83,6 +83,9 @@ For advanced usage lookup ansible var files.
   * Rustup - v1.21.1
   * Rust analyzer - release 2020-11-13
 
+* **scala**
+  * Scala 2 - 2.13.5
+
 ## Editors
 
 * **Emacs**

@@ -1,0 +1,3 @@
+scala:
+  version: "2.13.5"
+  checksum: "sha256:ed2c21c11fc7bc3a85fd50471ac3c1c124e7d81db9a458a257514fdc0dcf05aa"

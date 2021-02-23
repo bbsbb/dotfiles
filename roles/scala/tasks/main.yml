@@ -1,0 +1,32 @@
+---
+- name: "Check if we already have a Scala compiler."
+  become: yes
+  become_user: "{{ ssh.user }}"
+  stat:
+    path: "/opt/scala/bin/scalac"
+  register: scala_installed
+
+- name: "Download the specified Scala version"
+  get_url:
+    url: "https://downloads.lightbend.com/scala/{{scala.version}}/scala-{{scala.version}}.tgz"
+    dest: "/tmp/scala.tar.gz"
+    checksum: "{{scala.checksum}}"
+    mode: "0755"
+
+- name: "Create the optional Scala path if it doesn't exist"
+  file:
+    path: "/opt/scala"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+
+- name: "Extract to Scala path in /opt"
+  unarchive:
+    src: "/tmp/scala.tar.gz"
+    dest: "/opt/scala"
+    remote_src: yes
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+    creates: "/opt/scala/bin/scala"
+    extra_opts: [--strip-components=1]
