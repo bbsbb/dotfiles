@@ -1,10 +1,14 @@
 ---
-- name: "Check if we already have a Scala compiler."
-  become: yes
-  become_user: "{{ ssh.user }}"
-  stat:
-    path: "/opt/scala/bin/scalac"
-  register: scala_installed
+- name: "Detect currently installed Scala version"
+  shell: /opt/scala/bin/scala --version | grep -c '{{scala.version}}'
+  register: scala_version_matching
+  ignore_errors: true
+
+- name: "Purge existing Scala folder if applicable"
+  file:
+    path: "/opt/racket"
+    state: absent
+  when: scala_version_matching.stdout == '0'
 
 - name: "Download the specified Scala version"
   get_url:
@@ -12,6 +16,7 @@
     dest: "/tmp/scala.tar.gz"
     checksum: "{{scala.checksum}}"
     mode: "0755"
+  when: scala_version_matching.stdout == '0'
 
 - name: "Create the optional Scala path if it doesn't exist"
   file:
@@ -20,6 +25,7 @@
     mode: 0755
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
+  when: scala_version_matching.stdout == '0'
 
 - name: "Extract to Scala path in /opt"
   unarchive:
@@ -29,4 +35,30 @@
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
     creates: "/opt/scala/bin/scala"
+    extra_opts: [--strip-components=1]
+  when: scala_version_matching.stdout == '0'
+
+- name: "Let's install SBT now"
+  get_url:
+    url: "https://github.com/sbt/sbt/releases/download/v{{sbt.version }}/sbt-{{sbt.version}}.tgz"
+    dest: "/tmp/sbt.tar.gz"
+    checksum: "{{sbt.checksum}}"
+    mode: "0755"
+
+- name: "Create the optional SBT path if it doesn't exist"
+  file:
+    path: "/opt/sbt"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+
+- name: "Extract to SBT path in /opt"
+  unarchive:
+    src: "/tmp/sbt.tar.gz"
+    dest: "/opt/sbt"
+    remote_src: yes
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+    creates: "/opt/sbt/bin"
     extra_opts: [--strip-components=1]

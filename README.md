@@ -85,6 +85,7 @@ For advanced usage lookup ansible var files.
 
 * **scala**
   * Scala 2 - 2.13.5
+  * sbt - 1.4.7
 
 ## Editors
 
