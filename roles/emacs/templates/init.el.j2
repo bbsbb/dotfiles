@@ -186,6 +186,13 @@
   :mode (("\\.json\\'" . json-mode)))
 
 ;;==========================
+;; Dart mode w/ lsp
+;;==========================
+(use-package lsp-dart
+  :ensure t
+  :hook (dart-mode . lsp))
+
+;;==========================
 ;; Haskell major w/ pp
 ;;==========================
 (use-package haskell-mode
