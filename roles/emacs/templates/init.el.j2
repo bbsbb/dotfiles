@@ -235,7 +235,7 @@
 ;; - Go
 ;; - Rust
 ;;==========================
-(defun lsp-go-save-hooks ()
+(defun lsp-format-hooks ()
   "Explicit on save hooks for LSP Golang."
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
@@ -249,7 +249,8 @@
               (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
 
             ;; Golang
-            (add-hook 'go-mode-hook #'lsp-go-save-hooks)
+            (add-hook 'go-mode-hook #'lsp-format-hooks)
+            (add-hook 'scala-mode-hook #'lsp-format-hooks)
             )
   :custom (
            ;; Clojure
