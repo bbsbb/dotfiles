@@ -56,7 +56,7 @@ For advanced usage lookup ansible var files.
   * CLJ Kondo LSP - v2021.02.13
 
 * **go**
-  * Golang - v1.15.5
+  * Golang - v1.16.3
   * Gopls - Latest
   * Specifics - GOPATH set, gomodules on.
 
