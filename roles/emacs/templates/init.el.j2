@@ -93,11 +93,6 @@
             (define-key company-active-map (kbd "SPC") nil)
             (setq company-auto-complete-chars nil)))
 
-(use-package company-lsp
-  :ensure t
-  :after company lsp-mode
-  :init (push 'company-lsp company-backends))
-
 ;;==========================
 ;; Exec path from shell
 ;;==========================
