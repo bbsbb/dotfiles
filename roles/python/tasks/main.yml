@@ -1,3 +1,6 @@
 - name: Install pipenv to make this mess of a language almost bearable
   pip:
-    name: pipenv
+    name:
+      - pipenv
+      - black
+      - isort
