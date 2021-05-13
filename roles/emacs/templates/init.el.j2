@@ -249,7 +249,8 @@
             ;; Golang
             (add-hook 'go-mode-hook #'lsp-format-hooks)
             (add-hook 'scala-mode-hook #'lsp-format-hooks)
-            )
+            (add-hook 'python-mode-hook #'python-black-on-save-mode))
+
   :custom (
            ;; Clojure
            (lsp-clojure-server-command '("java" "-jar" "/home/{{ ssh.user }}/bin/clj-kondo-lsp"))
@@ -286,6 +287,10 @@
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp))))
+
+(use-package python-black
+  :demand t
+  :after python)
 
 ;;==========================
 ;; Rainbow delimiters - Delimiter highlights
