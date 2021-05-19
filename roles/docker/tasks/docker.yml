@@ -20,5 +20,5 @@
 - name: Adjust user groups
   user:
     name: "{{ ssh.user }}"
-    groups: admin,sudo,docker
+    groups: sudo,docker
     append: yes
