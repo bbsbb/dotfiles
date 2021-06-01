@@ -12,6 +12,7 @@
       - pasystray
       - pavucontrol
       - suckless-tools
+      - xautolock
       - xfce4-power-manager
       - acpid
     update_cache: yes
