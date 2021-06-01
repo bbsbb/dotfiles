@@ -1,6 +1,15 @@
+- name: "Fetch pyenv"
+  become: yes
+  become_user: "{{ ssh.user }}"
+  git:
+    repo: "https://github.com/pyenv/pyenv.git"
+    dest: "~/.pyenv"
+    accept_hostkey: true
+
 - name: Install pipenv and linting packages
   pip:
     name:
       - pipenv
       - black
       - isort
+      - mypy # this is redundant, black is better, but whatever.
