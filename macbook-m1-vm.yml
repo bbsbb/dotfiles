@@ -1,0 +1,43 @@
+- name: "Provision Macbook Air M1 VM for development"
+  hosts: vm
+  gather_facts: no
+  vars_files:
+    - vars/macbook-m1-vm.yml
+  roles:
+    - meta
+
+    - { role: secure-ssh, become: yes, become_user: root, become_method: sudo}
+
+    # Get rid of this fking cancer.
+    - { role: purge-snap, become: yes, become_user: root, become_method: sudo}
+
+    # Shell & Base development
+    - { role: zsh, become: yes, become_user: root, become_method: sudo}
+    - { role: dev-base, become: yes, become_user: root, become_method: sudo}
+
+    # Docker
+    - { role: docker, become: yes, become_user: root, become_method: sudo, arch: "arm64"}
+    - { role: docker-compose, become: yes, become_user: root, become_method: sudo, arch: "aarch64"}
+
+    # JDK 11/13, Jenv, JVM languages. Scala missing, have ot update to 3
+    - { role: jvm, become: yes, become_user: root, become_method: sudo}
+    - { role: clojure, become: yes, become_user: root, become_method: sudo}
+    - { role: kotlin, become: yes, become_user: root, become_method: sudo}
+
+    # Golang + LSP
+    - { role: go, become: yes, become_user: root, become_method: sudo, arch: "arm64"}
+
+    # NVM
+    - { role: javascript, become: yes, become_user: root, become_method: sudo}
+
+    # Pyenv + Poetry
+    - { role: python, become: yes, become_user: root, become_method: sudo}
+
+    # Rustup + Rust Analyzer
+    - { role: rust, become: yes, become_user: root, become_method: sudo, arch: "aarch64"}
+
+    # Cabal + GHC
+    - { role: haskell, become: yes, become_user: root, become_method: sudo, arch: "aarch64"}
+
+    # Emacs from nightly.
+    - { role: emacs, become: yes, become_user: root, become_method: sudo}
