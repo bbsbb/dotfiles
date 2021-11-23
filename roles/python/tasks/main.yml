@@ -6,10 +6,10 @@
     dest: "~/.pyenv"
     accept_hostkey: true
 
-- name: Install pipenv and linting packages
+- name: Install poetry and linting packages
   pip:
     name:
-      - pipenv
+      - poetry
       - black
       - isort
-      - mypy # this is redundant, black is better, but whatever.
+      - mypy
