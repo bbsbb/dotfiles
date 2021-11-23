@@ -1,12 +1,13 @@
 diff --git a/themes/agnoster.zsh-theme b/themes/agnoster.zsh-theme
-index b0a3b7b3..1ca85f77 100644
+index fe7ddbac..d586de5c 100644
 --- a/themes/agnoster.zsh-theme
 +++ b/themes/agnoster.zsh-theme
-@@ -89,5 +89,5 @@ prompt_end() {
+@@ -89,7 +89,7 @@ prompt_end() {
  # Context: user@hostname (who am I and where am I)
  prompt_context() {
-   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+   if [[ "$USERNAME" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
 -    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
 +    prompt_segment black default "λ"
    fi
  }
+ 

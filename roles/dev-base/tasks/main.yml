@@ -5,6 +5,7 @@
       - arandr
       - build-essential
       - curl
+      - fonts-inconsolata
       - git
       - jq
       - locales
