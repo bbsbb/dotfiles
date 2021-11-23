@@ -1,0 +1,4 @@
+compose:
+  aarch64:
+    version: "v2.1.1"
+    checksum: "sha256:2fa7bc8f64891fde806924559bf8aeac50185b77e5b3032951f1f634a8912476"

@@ -1,7 +1,0 @@
----
-- name: "Download & verify docker-compose."
-  get_url:
-    url: "https://github.com/docker/compose/releases/download/{{docker.compose_version}}/docker-compose-Linux-x86_64"
-    dest: "/usr/local/bin/docker-compose"
-    checksum: "{{docker.compose_checksum}}"
-    mode: "0755"

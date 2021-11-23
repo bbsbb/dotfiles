@@ -1,3 +1,0 @@
-docker:
-  compose_version: "1.29.2"
-  compose_checksum: "sha256:f3f10cf3dbb8107e9ba2ea5f23c1d2159ff7321d16f0a23051d68d8e2547b323"
