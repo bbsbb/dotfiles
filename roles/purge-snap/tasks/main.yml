@@ -14,7 +14,7 @@
 - name: Remove core
   snap:
     name:
-      - core18
+      - core20
     state: absent
   when: snap_installed.stat.exists == true
 - name: Remove snapd
