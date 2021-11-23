@@ -1,6 +1,6 @@
 ---
 - name: "Detect currently installed go version"
-  shell: /usr/local/go/bin/go version | grep -c '{{go.version}}'
+  shell: /usr/local/go/bin/go version | grep -c '{{go[arch].version}}'
   register: version_matching
   ignore_errors: true
 
@@ -12,9 +12,9 @@
 
 - name: "Download the specified golang version"
   get_url:
-    url: "https://golang.org/dl/go{{go.version}}.linux-amd64.tar.gz"
+    url: "https://golang.org/dl/go{{go[arch].version}}.linux-{{arch}}.tar.gz"
     dest: "/tmp/go.tar.gz"
-    checksum: "{{go.checksum}}"
+    checksum: "{{go[arch].checksum}}"
     mode: "0755"
   when: version_matching.stdout == '0'
 
@@ -44,4 +44,4 @@
   shell: "GOPATH=/home/{{ssh.user}}/src/go GO111MODULE=on /usr/local/go/bin/go get -u golang.org/x/tools/gopls@latest"
   args:
     executable: /usr/bin/zsh
-    creates: "~/src/golang/bin/gopls"
+    creates: "~/src/go/bin/gopls"
