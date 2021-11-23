@@ -1,6 +1,8 @@
 analyzer:
-  version: "2020-11-23"
-  checksum: "sha256:f916e74aba562394ee2211d40e1582c6621c016156a982e2ada1b774db135464"
+  aarch64:
+    version: "2021-11-22"
+    checksum: "sha256:a8ba86dcae60ec1b295dbff18e816022af569989861ebec02f7a02ae9c9a6c14"
 rustup:
-  version: "1.22.1"
-  checksum: "sha256:49c96f3f74be82f4752b8bffcf81961dea5e6e94ce1ccba94435f12e871c3bdb"
+  aarch64:
+    version: "1.24.3"
+    checksum: "sha256:32a1532f7cef072a667bac53f1a5542c99666c4071af0c9549795bbdb2069ec1"

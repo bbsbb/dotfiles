@@ -7,16 +7,19 @@
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
 
-- name: "Download Rustup version {{rustup.version}}"
+- name: "Download Rustup version {{rustup[arch].version}}"
   get_url:
-    url: "https://static.rust-lang.org/rustup/archive/1.22.1/x86_64-unknown-linux-gnu/rustup-init"
+    url: "https://static.rust-lang.org/rustup/archive/{{rustup[arch].version}}/{{arch}}-unknown-linux-gnu/rustup-init"
     dest: "/home/{{ ssh.user }}/.cargo/bin/rustup"
-    checksum: "{{rustup.checksum}}"
+    checksum: "{{rustup[arch].checksum}}"
     mode: "a+x"
 
-- name: "Download Rust analyzer version {{analyzer.version}}"
+- name: "Download Rust analyzer version {{analyzer[arch].version}}"
   get_url:
-    url: "https://github.com/rust-analyzer/rust-analyzer/releases/download/{{analyzer.version}}/rust-analyzer-linux"
-    dest: "/home/{{ ssh.user }}/bin/rust-analyzer"
-    checksum: "{{analyzer.checksum}}"
+    url: "https://github.com/rust-analyzer/rust-analyzer/releases/download/{{analyzer[arch].version}}/rust-analyzer-{{arch}}-unknown-linux-gnu.gz"
+    dest: "/home/{{ ssh.user }}/bin/rust-analyzer.gz"
+    checksum: "{{analyzer[arch].checksum}}"
     mode: "a+x"
+
+- name: "Setup rust analyzer into executable path"
+  shell: gunzip /home/{{ ssh.user }}/bin/rust-analyzer.gz
