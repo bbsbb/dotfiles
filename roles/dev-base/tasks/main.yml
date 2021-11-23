@@ -13,6 +13,7 @@
       - python3-pip
       - silversearcher-ag
       - tmux
+      - unzip
     update_cache: yes
     dpkg_options: 'force-confold'
     state: latest
