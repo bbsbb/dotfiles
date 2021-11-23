@@ -1,14 +1,21 @@
 ---
-- name: "Add the Haskell PPA"
-  apt_repository:
-    repo: 'ppa:hvr/ghc'
-    state: present
-    filename: 'haskell'
-
-- name: "Install GHC & Cabal"
+- name: "Install GHC 8.8"
   apt:
     name:
-      - "ghc-{{haskell.ghc}}"
-      - "cabal-install-{{haskell.cabal}}"
+      - ghc
     update_cache: yes
     state: latest
+
+- name: "Download Cabal install {{cabal[arch].version}}"
+  get_url:
+    url: "https://downloads.haskell.org/~cabal/cabal-install-{{cabal[arch].version}}/cabal-install-{{cabal[arch].version}}-{{arch}}-linux-deb10.tar.xz"
+    dest: "/tmp/cabal.tar.gz"
+    checksum: "{{cabal[arch].checksum}}"
+    mode: "0755"
+
+- name: "Extract to local bin path"
+  unarchive:
+    src: "/tmp/cabal.tar.gz"
+    dest: "/usr/local/bin"
+    remote_src: yes
+    creates: "/usr/local/bin/cabal"

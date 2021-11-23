@@ -1,3 +1,4 @@
-haskell:
-  ghc: 7.10.3
-  cabal: 3.4
+cabal:
+  aarch64:
+    version: "3.6.0.0"
+    checksum: "sha256:534f71cd4e1d9758dc73066cc5733c5838874710aeb3aa88541de6c6d042d9ec"
