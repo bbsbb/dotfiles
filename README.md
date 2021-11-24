@@ -5,15 +5,27 @@ minimal ubuntu server install. It includes gui and tooling as well as multiple r
 runtimes of various programming languages up to date.
 
 
+## Machines
+
+The following repository currently synchronizes the development experience
+between 3 machiens:
+
+* Desktop 5600x, 32GB, RTX 3800 Ubuntu Server 20.04
+* Laptop 4800H, 16GB, 13" Ubuntu Server 20.04
+* Laptop Macbook Air M1 - 8GB Qemu VM Ubuntu Server 20.04 aarch64
+
+
 ## Requirements
 
 * Clean, Ubuntu 20.04 **Server** minimal installation with ssh access, Ansible version >2.9 and GNU make.
 
+* _Note_: The setup is also being used within a headless 8GB qemu VM on a Macbook M1 Air host.
 
 ## Usage
 
 1. Create an inventories file called `live` in `inventories/` (see `examples/inventories/`)
 2. Create a provisioning file `task`.yml at the root of the repository. (see `examples/template/`)
+
 3. Execute:
 
 ```
@@ -29,7 +41,7 @@ For advanced usage lookup ansible var files.
 ### Utility
 
 * **secure-ssh**
-  - Trivial parameter changes to SSH according to configuration.
+  - Trivial parameter changes to SSH according to configuration. Enables collecting remote forward binds.
 * **purge-snap**
   - Remove snap for good (ubuntu can still pull it via hard apt dependency)
 * **zsh**
@@ -41,56 +53,65 @@ For advanced usage lookup ansible var files.
 * **gui-extras**
   - firefox
 * **docker**
-  - Docker + docker-compose.
+  - Docker
+* **docker-compose**
+  - Docker-compose
 
-### Environment managers
 
-* **[jenv](https://github.com/jenv/jenv)** - 0.5.4
-
-### Programming Languages
+### Programming Languages w/ Tooling
 
 * **clojure**
-  * OpenJDK - v11
-  * Clojure Cli - v1.10.2.774
-  * Lein - v2.9.4.
-  * CLJ Kondo LSP - v2021.02.13
+  * [Clojure](https://clojure.org/) - v1.10.3.1029
+  * [Lein](https://github.com/technomancy/leiningen) - v2.9.8
+  * [CLJ Kondo](https://github.com/clj-kondo/clj-kondo) LSP - v2021.10.19
 
 * **go**
-  * Golang - v1.16.3
-  * Gopls - Latest
-  * Specifics - GOPATH set, gomodules on.
+  * [Go](https://go.dev/) - v1.17.3
+  * [Gopls](https://github.com/golang/tools/tree/master/gopls) LSP - Head
 
 * **elixir**
-  * Elixir - Latest packaged by ES
-
-* **javascript**
-  * NVM - v0.37.0
+  * [Elixir](https://elixir-lang.org/) - Latest packaged by ES
 
 * **haskell**
-  * GHC - 7.10.3
-  * Cabal - 3.4
+  * [GHC](https://www.haskell.org/ghc/) - 8.8.2 (shipping with LTS)
+  * [Cabal](https://www.haskell.org/cabal/) - 3.6
+
+* **java**
+  * JVM 11/13 LTS (packaged openjdk)
+  * [jenv](https://github.com/jenv/jenv) - 0.5.4
+
+* **javascript**
+  * [nvm](https://github.com/nvm-sh/nvm) - 0.39.0
 
 * **kotlin**
-  * Kotlinc - 1.4.20
+  * [Kotlin](https://kotlinlang.org/) - 1.6.0
 
 * **python**
-  * Pipenv - Latest
+  *[pyenv](https://github.com/pyenv/pyenv)** - (HEAD, no release tracking)
 
 * **racket**
-  * Racket - v7.9
+  * [Racket](https://racket-lang.org/) - v7.9
 
 * **rust**
-  * Rustup - v1.21.1
-  * Rust analyzer - release 2020-11-13
+  * [Rustup](https://rustup.rs/) - v1.24.3
+  * [Rust analyzer](2021-11-22) - release 2020-11-13
 
 * **scala**
-  * Scala 2 - 2.13.5
-  * sbt - 1.4.7
+  * [Scala 2](https://www.scala-lang.org/) - 2.13.5
+  * [sbt](https://www.scala-sbt.org/) - 1.4.7
 
 ## Editors
 
 * **Emacs**
-  * A Custom emacs configuration running on nightly.
+  * A Custom emacs configuration w/ LSP running on nightly.
+
+
+## Diverse
+
+* **Yubikey*
+
+The zsh configuration contains commented out gpg section and sshd_config is pre-configured to accept gpg-agent
+forwarding(useful for Host -> Guest only, otherwise insecure).
 
 
 ## Disclaimer
