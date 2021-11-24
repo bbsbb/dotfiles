@@ -12,14 +12,13 @@ between 3 machiens:
 
 * Desktop 5600x, 32GB, RTX 3800 Ubuntu Server 20.04
 * Laptop 4800H, 16GB, 13" Ubuntu Server 20.04
-* Laptop Macbook Air M1 - 8GB Qemu VM Ubuntu Server 20.04 aarch64
+* Laptop Macbook Air M1 16GB - 8GB Qemu VM Ubuntu Server 20.04 aarch64 headless
 
 
 ## Requirements
 
 * Clean, Ubuntu 20.04 **Server** minimal installation with ssh access, Ansible version >2.9 and GNU make.
 
-* _Note_: The setup is also being used within a headless 8GB qemu VM on a Macbook M1 Air host.
 
 ## Usage
 
