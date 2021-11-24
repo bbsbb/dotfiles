@@ -107,7 +107,7 @@ For advanced usage lookup ansible var files.
 
 ## Diverse
 
-* **Yubikey*
+* [Yubikey](https://www.yubico.com/)
 
 The zsh configuration contains commented out gpg section and sshd_config is pre-configured to accept gpg-agent
 forwarding(useful for Host -> Guest only, otherwise insecure).
