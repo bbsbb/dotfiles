@@ -249,7 +249,8 @@
             ;; Golang
             (add-hook 'go-mode-hook #'lsp-format-hooks)
             (add-hook 'scala-mode-hook #'lsp-format-hooks)
-            (add-hook 'python-mode-hook #'python-black-on-save-mode))
+            (add-hook 'python-mode-hook #'python-black-on-save-mode)
+            (add-hook 'before-save-hook #'py-isort-before-save))
 
   :custom (
            ;; Clojure
@@ -289,6 +290,10 @@
                           (lsp))))
 
 (use-package python-black
+  :demand t
+  :after python)
+
+(use-package py-isort
   :demand t
   :after python)
 
