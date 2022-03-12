@@ -2,3 +2,6 @@ compose:
   aarch64:
     version: "v2.1.1"
     checksum: "sha256:2fa7bc8f64891fde806924559bf8aeac50185b77e5b3032951f1f634a8912476"
+  x86_64:
+    version: "v2.3.3"
+    checksum: "sha256:d31e90dda58e21a6463cb918868421b4b58c32504b01b1612d154fe6a9167a91"
