@@ -1,7 +1,7 @@
 go:
   amd64:
-    version: "1.17.3"
-    checksum: "sha256:550f9845451c0c94be679faf116291e7807a8d78b43149f9506c1b15eb89008c"
+    version: "1.17.8"
+    checksum: "sha256:980e65a863377e69fd9b67df9d8395fd8e93858e7a24c9f55803421e453f4f99"
   arm64:
-    version: "1.17.3"
-    checksum: "sha256:06f505c8d27203f78706ad04e47050b49092f1b06dc9ac4fbee4f0e4d015c8d4"
+    version: "1.17.8"
+    checksum: "sha256:57a9171682e297df1a5bd287be056ed0280195ad079af90af16dcad4f64710cb"
