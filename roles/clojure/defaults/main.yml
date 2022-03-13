@@ -2,5 +2,5 @@ clojure:
   version: "1.10.3.1029"
   checksum: "sha256:fe495d448a8c4565bb37f04481f6231575114a3d918cadb93be6770f43863ad4"
 kondo:
-  version: "2021.10.19"
-  checksum: "sha256:83a235739cfbc57ff5eb3cdbb44471023c4d06b46c0048f45e12c3793ad79485"
+  version: "2022.03.09"
+  checksum: "sha256:f083ac94895b32867f4b43056872558b20a2bbdfad045c1e2f56625fcad383b5"
