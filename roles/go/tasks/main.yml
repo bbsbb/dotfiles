@@ -41,7 +41,7 @@
 
 - name: "Install gopls"
   remote_user: "{{ssh.user}}"
-  shell: "GOPATH=/home/{{ssh.user}}/src/go GO111MODULE=on /usr/local/go/bin/go get -u golang.org/x/tools/gopls@latest"
+  shell: "GOPATH=/home/{{ssh.user}}/src/go GO111MODULE=on /usr/local/go/bin/go install golang.org/x/tools/gopls@latest"
   args:
     executable: /usr/bin/zsh
     creates: "~/src/go/bin/gopls"
