@@ -1,12 +1,6 @@
 ---
-- name: "Install latest leiningen."
-  get_url:
-    dest: "/home/{{ ssh.user }}/bin/lein"
-    url: "https://raw.github.com/technomancy/leiningen/stable/bin/lein"
-    mode: "a+x"
-
 - name: "Detect currently installed CLJ cli version"
-  shell: clj --help | grep -c '{{clojure.version}}'
+  shell: clojure --help | grep -c '{{clojure.version}}'
   register: clj_version_matching
   ignore_errors: true
 
@@ -16,6 +10,8 @@
     dest: "/tmp/install-clj"
     checksum: "{{clojure.checksum}}"
     mode: "a+x"
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
   when: clj_version_matching.stdout == '0'
 
 - name: "Run Clojure installer"
@@ -30,3 +26,5 @@
     dest: "/home/{{ ssh.user }}/bin/clj-kondo-lsp"
     checksum: "{{kondo.checksum}}"
     mode: "a+x"
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
