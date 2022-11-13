@@ -10,9 +10,8 @@ runtimes of various programming languages up to date.
 The following repository currently synchronizes the development experience
 between 3 machiens:
 
-* Desktop 5600x, 32GB, RTX 3800 Ubuntu Server 20.04
-* Laptop 4800H, 16GB, 13" Ubuntu Server 20.04
-* Laptop Macbook Air M1 16GB - 8GB Qemu VM Ubuntu Server 20.04 aarch64 headless
+* Desktop 5600x, 64GB, RTX 3800, Ubuntu Server 20.04
+* Laptop Macbook Air M1 16GB - 8GB Qemu VM, headless Ubuntu Server 20.04 aarch64
 
 
 ## Requirements
@@ -60,12 +59,11 @@ For advanced usage lookup ansible var files.
 ### Programming Languages w/ Tooling
 
 * **clojure**
-  * [Clojure](https://clojure.org/) - v1.10.3.1029
-  * [Lein](https://github.com/technomancy/leiningen) - v2.9.8
-  * [CLJ Kondo](https://github.com/clj-kondo/clj-kondo) LSP - v2021.10.19
+  * [Clojure](https://clojure.org/) - v1.11.1.1182
+  * [CLJ Kondo](https://github.com/clj-kondo/clj-kondo) LSP - v2022.11.02
 
 * **go**
-  * [Go](https://go.dev/) - v1.17.3
+  * [Go](https://go.dev/) - v1.19.3
   * [Gopls](https://github.com/golang/tools/tree/master/gopls) LSP - Head
 
 * **elixir**
@@ -92,8 +90,8 @@ For advanced usage lookup ansible var files.
   * [Racket](https://racket-lang.org/) - v7.9
 
 * **rust**
-  * [Rustup](https://rustup.rs/) - v1.24.3
-  * [Rust analyzer](2021-11-22) - release 2020-11-13
+  * [Rustup](https://rustup.rs/) - v1.25.1
+  * [Rust analyzer](2021-11-22) - release 2022-11-07
 
 * **scala**
   * [Scala 2](https://www.scala-lang.org/) - 2.13.5

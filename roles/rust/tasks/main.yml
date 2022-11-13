@@ -13,6 +13,8 @@
     dest: "/home/{{ ssh.user }}/.cargo/bin/rustup"
     checksum: "{{rustup[arch].checksum}}"
     mode: "a+x"
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
 
 - name: "Download Rust analyzer version {{analyzer[arch].version}}"
   get_url:
@@ -20,6 +22,8 @@
     dest: "/home/{{ ssh.user }}/bin/rust-analyzer.gz"
     checksum: "{{analyzer[arch].checksum}}"
     mode: "a+x"
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
 
 - name: "Setup rust analyzer into executable path"
   shell: gunzip /home/{{ ssh.user }}/bin/rust-analyzer.gz
