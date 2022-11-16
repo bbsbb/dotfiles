@@ -397,7 +397,8 @@
 ;; Disable features
 (dolist (m '(menu-bar-mode
              tool-bar-mode
-             scroll-bar-mode))
+             ;;scroll-bar-mode
+             ))
   (funcall m -1))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
