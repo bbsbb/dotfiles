@@ -6,13 +6,13 @@
 
 - name: "Purge existing Scala folder if applicable"
   file:
-    path: "/opt/racket"
+    path: "/opt/scala"
     state: absent
   when: scala_version_matching.stdout == '0'
 
 - name: "Download the specified Scala version"
   get_url:
-    url: "https://downloads.lightbend.com/scala/{{scala.version}}/scala-{{scala.version}}.tgz"
+    url: "https://github.com/lampepfl/dotty/releases/download/{{scala.version}}/scala3-{{scala.version}}.tar.gz"
     dest: "/tmp/scala.tar.gz"
     checksum: "{{scala.checksum}}"
     mode: "0755"

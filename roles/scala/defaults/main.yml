@@ -1,6 +1,6 @@
 scala:
-  version: "2.13.5"
-  checksum: "sha256:ed2c21c11fc7bc3a85fd50471ac3c1c124e7d81db9a458a257514fdc0dcf05aa"
+  version: 3.2.1
+  checksum: "sha256:914e96e6d1d73df2fc68985a394e27ccbfb299306d95a9663fa4fefe83349e59"
 sbt:
-  version: 1.5.2
-  checksum: "sha256:9d01f7eb1a3830190d53ed4d8b8b9a6380f013ad30573a04e330d1de42ff0212"
+  version: 1.8.0
+  checksum: "sha256:bc7f08b0f22c167bb5510928701f2b681753b66e29131e3f091afc5fb9066c59"
