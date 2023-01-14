@@ -3,12 +3,12 @@ analyzer:
     version: "2022-11-07"
     checksum: "sha256:319b445878208c6eb02a0c6167c7591bc2ed64fe018d9d962e24567ba1f11fab"
   aarch64:
-    version: "2022-11-07"
-    checksum: "sha256:a8ba86dcae60ec1b295dbff18e816022af569989861ebec02f7a02ae9c9a6c14"
+    version: "2023-01-09"
+    checksum: "sha256:98006e7378bda2beb4e79d73c311a063bb1a537ff828c57feab34b2d9f88dcab"
 rustup:
   x86_64:
     version: "1.25.1"
     checksum: "sha256:5cc9ffd1026e82e7fb2eec2121ad71f4b0f044e88bca39207b3f6b769aaa799c"
   aarch64:
-    version: "1.24.3"
-    checksum: "sha256:32a1532f7cef072a667bac53f1a5542c99666c4071af0c9549795bbdb2069ec1"
+    version: "1.25.1"
+    checksum: "sha256:e189948e396d47254103a49c987e7fb0e5dd8e34b200aa4481ecc4b8e41fb929"

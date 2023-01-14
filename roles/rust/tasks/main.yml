@@ -7,6 +7,17 @@
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
 
+- name: "Detect currently installed rustup version"
+  shell: /home/{{ ssh.user }}/.cargo/bin/rustup --version | grep -c '{{rustup[arch].version}}'
+  register: version_matching
+  ignore_errors: true
+
+- name: "Purge existing rustup"
+  file:
+    path: "/home/{{ ssh.user }}/.cargo/bin/rustup"
+    state: absent
+  when: version_matching.stdout == '0'
+
 - name: "Download Rustup version {{rustup[arch].version}}"
   get_url:
     url: "https://static.rust-lang.org/rustup/archive/{{rustup[arch].version}}/{{arch}}-unknown-linux-gnu/rustup-init"
@@ -15,6 +26,18 @@
     mode: "a+x"
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
+  when: version_matching.stdout == '0'
+
+- name: "Detect currently installed rust-analyzer version"
+  shell: /home/{{ ssh.user }}//bin/rust-analyzer --version | grep -c '{{analyzer[arch].version}}'
+  register: ra_version_matching
+  ignore_errors: true
+
+- name: "Purge existing rust analyzer if required"
+  file:
+    path: "/home/{{ ssh.user }}/bin/rust-analyzer"
+    state: absent
+  when: ra_version_matching.stdout == '0'
 
 - name: "Download Rust analyzer version {{analyzer[arch].version}}"
   get_url:
