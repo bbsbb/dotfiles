@@ -118,10 +118,10 @@
   :hook ((prog-mode . flycheck-mode)))
 
 ;;==========================
-;; Git Gutter - Hunk annotation
+;; Git Gutter - Hunk annotation -- requires manual installation
 ;;==========================
-(use-package git-gutter
-  :init (global-git-gutter-mode t))
+;;(use-package git-gutter
+ll  :init (global-git-gutter-mode t))
 
 ;;==========================
 ;; GO - Golang mode
@@ -204,7 +204,6 @@
 ;;==========================
 (use-package helm
   :config (progn
-            (require 'helm-config)
             (setq  helm-display-header-line nil
                    helm-split-window-in-side-p t
                    helm-autoresize-max-height 30
@@ -397,7 +396,6 @@
 ;; Disable features
 (dolist (m '(menu-bar-mode
              tool-bar-mode
-             ;;scroll-bar-mode
              ))
   (funcall m -1))
 
