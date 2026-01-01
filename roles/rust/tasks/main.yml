@@ -29,7 +29,7 @@
   when: version_matching.stdout == '0'
 
 - name: "Detect currently installed rust-analyzer version"
-  shell: /home/{{ ssh.user }}//bin/rust-analyzer --version | grep -c '{{analyzer[arch].version}}'
+  shell: /home/{{ ssh.user }}/bin/rust-analyzer --version | grep -c '{{analyzer[arch].expected_version}}'
   register: ra_version_matching
   ignore_errors: true
 
@@ -39,7 +39,7 @@
     state: absent
   when: ra_version_matching.stdout == '0'
 
-- name: "Download Rust analyzer version {{analyzer[arch].version}}"
+- name: "Download Rust analyzer version {{analyzer[arch].expected_version}}"
   get_url:
     url: "https://github.com/rust-analyzer/rust-analyzer/releases/download/{{analyzer[arch].version}}/rust-analyzer-{{arch}}-unknown-linux-gnu.gz"
     dest: "/home/{{ ssh.user }}/bin/rust-analyzer.gz"
@@ -47,6 +47,8 @@
     mode: "a+x"
     owner: "{{ ssh.user }}"
     group: "{{ ssh.user }}"
+  when: ra_version_matching.stdout == '0'
 
 - name: "Setup rust analyzer into executable path"
   shell: gunzip /home/{{ ssh.user }}/bin/rust-analyzer.gz
+  when: ra_version_matching.stdout == '0'

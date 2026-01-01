@@ -49,3 +49,15 @@
     name: "{{ ssh.user }}"
     shell: /usr/bin/zsh
     append: yes
+- name: "Verify if bin directory exists"
+  stat:
+    path: "/home/{{ ssh.user }}/bin"
+  register: local_bin_override
+- name: "Create home bin directory to override local"
+  file:
+    path: "/home/{{ ssh.user }}/bin"
+    state: directory
+    mode: 0755
+    owner: "{{ ssh.user }}"
+    group: "{{ ssh.user }}"
+  when: not local_bin_override.stat.exists
