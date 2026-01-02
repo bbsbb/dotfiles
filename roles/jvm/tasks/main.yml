@@ -1,9 +1,8 @@
 ---
-- name: "Install OpenJDK 11/13."
+- name: "Install OpenJDK 25."
   apt:
     name:
-      - openjdk-11-jre
-      - openjdk-13-jre
+      - openjdk-25-jre
       - rlwrap
     update_cache: yes
     state: latest

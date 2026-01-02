@@ -120,8 +120,8 @@
 ;;==========================
 ;; Git Gutter - Hunk annotation -- requires manual installation
 ;;==========================
-;;(use-package git-gutter
-ll  :init (global-git-gutter-mode t))
+(use-package git-gutter
+  :init (global-git-gutter-mode t))
 
 ;;==========================
 ;; GO - Golang mode
@@ -141,9 +141,6 @@ ll  :init (global-git-gutter-mode t))
 ;;==========================
 (use-package ido
   :init (ido-mode))
-
-(use-package flx-ido
-  :config (flx-ido-mode t))
 
 ;;==========================
 ;; Javascript, Typescript &
@@ -209,10 +206,6 @@ ll  :init (global-git-gutter-mode t))
                    helm-autoresize-max-height 30
                    helm-autoresize-min-height 30))
   :init (helm-mode 1))
-
-(use-package helm-ag
-  :config (progn
-            (setq helm-ag-use-agignore t)))
 
 (use-package helm-projectile
   :bind (("C-x h" . helm-projectile-find-file)
@@ -402,3 +395,15 @@ ll  :init (global-git-gutter-mode t))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

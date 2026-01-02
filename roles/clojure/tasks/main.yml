@@ -22,7 +22,7 @@
 
 - name: "Install clj-kondo."
   get_url:
-    url: "https://github.com/borkdude/clj-kondo/releases/download/v{{kondo.version}}/clj-kondo-lsp-server-{{kondo.version}}-standalone.jar"
+    url: "https://github.com/clj-kondo/clj-kondo/releases/download/v{{kondo.version}}/clj-kondo-lsp-server-{{kondo.version}}-standalone.jar"
     dest: "/home/{{ ssh.user }}/bin/clj-kondo-lsp"
     checksum: "{{kondo.checksum}}"
     mode: "a+x"

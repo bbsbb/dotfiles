@@ -1,12 +1,7 @@
 ---
-- name: Add emacs snapshot repository
-  apt_repository:
-    repo: ppa:ubuntu-elisp/ppa
-    state: present
-
-- name: Install emacs snapshot.
+- name: Install emacs from the official repo
   apt:
-    name: emacs-snapshot
+    name: emacs
     state: present
     update_cache: yes
 
